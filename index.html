@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+  <title>后置摄像头全屏显示</title>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <label id="floating">这是实验文本</label>
+  <div class="navigate">
+    <!-- 楼号导航 -->
+    <select name="building" id="building">
+      <option value="Community">XX小区</option>
+      <option value="1#楼">1#楼</option>
+      <option value="2#楼">2#楼</option>
+      <option value="3#楼">3#楼</option>
+      <option value="4#楼">4#楼</option>
+      <option value="5#楼">5#楼</option>
+      <option value="6#楼">6#楼</option>
+      <option value="7#楼">7#楼</option>
+      <option value="8#楼">8#楼</option>
+    </select>
+    <!-- 拍摄时期 -->
+    <select name="inspection" id="inspection">
+      <option value="装修前">装修前</option>
+      <option value="装修中">装修中</option>
+      <option value="装修后">装修后</option>
+    </select>
+    <!-- 菜单按钮 -->
+    <button class="menu">...</button>
+  </div>
+
+  <!-- 水印相机组件 -->
+  <div class="watermarkCamera">
+    <video muted></video>
+    <canvas></canvas>
+    <div class="camera"></div>
+  </div>
+
+  <!-- 系统相机所拍图片展示 -->
+  <div class="systemCamera">
+    <img src="./img/R-C.jpg" alt="">
+  </div>
+
+  <!-- 底部按钮导航栏 -->
+  <div class="selector">
+    <!-- <input type="submit" value="水印相机" class="watermark"> -->
+    <button class="watermark">水印相机</button>
+    <button class="system"><label for="opencamera">系统相机</label></button>
+    <button class="picture">选择图片</button>
+    <button class="share">分享</button>
+    <input type="file" id="opencamera" accept="image/*" capture="camera">
+  </div>
+
+  <!--  -->
+  <!-- <video id="video" style="width:100vw;" autoplay></video>
+<button id="snap">Snap Photo</button>
+<canvas id="canvas"></canvas> -->
+  
+  <script src="./js/index.js"></script>
+
+</body>
+
+</html>
