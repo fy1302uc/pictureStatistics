@@ -47,9 +47,6 @@ body {
 .watermarkCamera > video {
   width: 100%;
   border: solid 2px deeppink;
-  position: absolute;
-  top: 0;
-  margin: auto 0;
 }
 .watermarkCamera > canvas {
   display: none;
@@ -70,6 +67,7 @@ body {
 /* 系统相机 */
 .systemCamera {
   flex: 1;
+  border: solid 2px green;
 }
 .systemCamera > img {
   width: 100%;

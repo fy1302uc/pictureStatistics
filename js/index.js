@@ -18,6 +18,8 @@ var height = 1000;
 
 //添加系统相机拍摄完成的图片
 input.addEventListener("change", function (event) {
+    systemCamera.style.display="block";
+    container.style.display = "none";
     var file = event.target.files[0];
     let reader = new FileReader();
     if (file) {
@@ -176,6 +178,7 @@ watermark.addEventListener("click", function () {
         video.play();
     } else {
         container.style.display = "none";
+        systemCamera.style.display="block";
         video.pause();
     }
 });
@@ -184,9 +187,9 @@ watermark.addEventListener("click", function () {
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState == "hidden") {
         container.style.display = "none";
-        //stopMedia();
+        stopMedia();
         video.pause();
     } else if (document.visibilityState == "visible") {
-        //startMedia();
+        startMedia();
     }
 });
