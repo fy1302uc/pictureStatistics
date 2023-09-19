@@ -7,11 +7,13 @@ var floatingLabel = document.querySelector("#floating");
 var systemCamera = document.querySelector(".systemCamera");
 var image = document.querySelector(".systemCamera>img");
 var input = document.querySelector(".selector>#opencamera");
+const watermark = document.querySelector(".selector>.watermark");
+
 
 //var label =document.querySelector(".selector>label");
 var context = canvas.getContext('2d');
 var width = 600;
-var height = 500;
+var height = 1000;
 // image.align="middle";
 
 //添加系统相机拍摄完成的图片
@@ -139,7 +141,7 @@ const startMedia = () => {
     }
 }
 
-//startMedia();*************
+startMedia();//*************
 const stopMedia = () => {
     const stream = video.srcObject;
     const tracks = stream.getTracks();
@@ -167,27 +169,24 @@ camera.addEventListener("click", function () {
 
 
 //点击水印相机按钮弹出和关闭水印相机窗口
-const watermark = document.querySelector(".selector>.watermark");
 watermark.addEventListener("click", function () {
     if (video.paused) {
         container.style.display = "block";
+        systemCamera.style.display="none";
         video.play();
     } else {
         container.style.display = "none";
         video.pause();
-
     }
-
-
 });
 
 // 在用户离开或隐藏这个页面时关闭视频采集,节省资源*************
-// document.addEventListener("visibilitychange", function () {
-//     if (document.visibilityState == "hidden") {
-//         container.style.display = "none";
-//         stopMedia();
-//         video.pause();
-//     } else if (document.visibilityState == "visible") {
-//         startMedia();
-//     }
-// });
+document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState == "hidden") {
+        container.style.display = "none";
+        //stopMedia();
+        video.pause();
+    } else if (document.visibilityState == "visible") {
+        //startMedia();
+    }
+});
