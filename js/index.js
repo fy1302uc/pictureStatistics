@@ -185,11 +185,16 @@ watermark.addEventListener("click", function () {
 
 // 在用户离开或隐藏这个页面时关闭视频采集,节省资源*************
 document.addEventListener("visibilitychange", function () {
+    
     if (document.visibilityState == "hidden") {
-        container.style.display = "none";
-        stopMedia();
-        video.pause();
+        this.timer=setTimeout(()=>{//设置定时器延迟1000秒在关闭视频流
+            container.style.display = "none";
+            stopMedia();
+            video.pause();
+            this.timer=0;
+        },1000000);
     } else if (document.visibilityState == "visible") {
-        startMedia();
+        this.timer?clearTimeout(this.timer):startMedia();//根据定时器的关闭与否进行清除定时或重新打开视频流
     }
+       
 });
