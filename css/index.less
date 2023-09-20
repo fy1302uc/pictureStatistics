@@ -11,24 +11,19 @@ body {
 body {
     overflow: hidden;
     background-color: gray;
-    display:flex;
-    flex-direction:column;
-}
-
-#floating {
-    position: absolute;
-    display: none;
-    z-index: 15;
-    color: white;
-    font-size: 4vw;
+    display: flex;
+    flex-direction: column;
+    user-select:none;//禁止文本被选中
 }
 
 /*顶部导航栏样式设置*/
 .navigate {
+    
     >* {
         font-size: 4vw;
-        line-height:5vw;
+        line-height: 5vw;
     }
+
     border:solid 1px deeppink;
     display:flex;
     justify-content: space-between;
@@ -44,62 +39,72 @@ body {
     }
 }
 
-/* 水印相机组件 */
-.watermarkCamera {
-    position: relative;
-    box-sizing: border-box;
-    display: none;
-    border:solid 2px blue;
-    height:calc(100vh - 17vw);
-
-    >video {
-        width: 100%;
-        border:solid 2px deeppink;
+/* 拍摄组件 */
+.shoot {
+    /* 浮动文本 */
+    #floating {
+        position: absolute;
+        display: block;
+        z-index: 15;
+        color: black;
+        font-size: 4vw;
     }
-
+    /* 画图画版 */
     >canvas {
         display: none;
     }
+    /* 水印相机组件 */
+    .watermarkCamera {
+        position: relative;
+        box-sizing: border-box;
+        display: none;
+        border: solid 2px blue;
+        height: calc(100vh - 17vw);
 
-    >.camera {
-        position: absolute;
-        z-index: 10;
-        bottom: 5vw;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        width: 15vw;
-        height: 15vw;
-        background-color: white;
-        border: 1vw solid black;
-        border-radius: 50%;
+        >video {
+            width: 100%;
+            border: solid 2px deeppink;
+        }
+        >.camera {
+            position: absolute;
+            z-index: 10;
+            bottom: 5vw;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 15vw;
+            height: 15vw;
+            background-color: white;
+            border: 1vw solid black;
+            border-radius: 50%;
+        }
     }
 
-}
+    /* 系统相机 */
+    .systemCamera {
+        flex: 1;
+        // overflow-y: scroll;
+        border: solid 2px green;
 
-/* 系统相机 */
-.systemCamera {
-    flex:1;
-   // overflow-y: scroll;
-   border:solid 2px green;
-    >img {
-        width: 100%;
-       //object-fit: cover;
+        >img {
+            width: 100%;
+            //object-fit: cover;
+        }
     }
 }
 
 /* 底部功能按钮 */
 .selector {
-    position:absolute;
-    bottom:0;
-    left:0;
-    right:0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     border: solid 1px green;
     display: flex;
     justify-content: space-evenly;
     align-items: end;
 
-    >button{
+    >button {
         width: 20vw;
         height: 12vw;
         font-size: 4vw;
@@ -117,4 +122,3 @@ body {
     }
 
 }
-

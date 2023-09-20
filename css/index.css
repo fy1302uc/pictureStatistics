@@ -11,13 +11,7 @@ body {
   background-color: gray;
   display: flex;
   flex-direction: column;
-}
-#floating {
-  position: absolute;
-  display: none;
-  z-index: 15;
-  color: white;
-  font-size: 4vw;
+  user-select: none;
 }
 /*顶部导航栏样式设置*/
 .navigate {
@@ -36,22 +30,35 @@ body {
   font-size: 5vw;
   width: 10vw;
 }
-/* 水印相机组件 */
-.watermarkCamera {
+/* 拍摄组件 */
+.shoot {
+  /* 浮动文本 */
+  /* 画图画版 */
+  /* 水印相机组件 */
+  /* 系统相机 */
+}
+.shoot #floating {
+  position: absolute;
+  display: block;
+  z-index: 15;
+  color: black;
+  font-size: 4vw;
+}
+.shoot > canvas {
+  display: none;
+}
+.shoot .watermarkCamera {
   position: relative;
   box-sizing: border-box;
   display: none;
   border: solid 2px blue;
   height: calc(100vh - 17vw);
 }
-.watermarkCamera > video {
+.shoot .watermarkCamera > video {
   width: 100%;
   border: solid 2px deeppink;
 }
-.watermarkCamera > canvas {
-  display: none;
-}
-.watermarkCamera > .camera {
+.shoot .watermarkCamera > .camera {
   position: absolute;
   z-index: 10;
   bottom: 5vw;
@@ -64,12 +71,11 @@ body {
   border: 1vw solid black;
   border-radius: 50%;
 }
-/* 系统相机 */
-.systemCamera {
+.shoot .systemCamera {
   flex: 1;
   border: solid 2px green;
 }
-.systemCamera > img {
+.shoot .systemCamera > img {
   width: 100%;
 }
 /* 底部功能按钮 */

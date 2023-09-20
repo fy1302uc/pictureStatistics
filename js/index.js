@@ -1,11 +1,11 @@
 //获取元素
-var container = document.querySelector(".watermarkCamera");
-var video = document.querySelector(".watermarkCamera>video");
-var canvas = document.querySelector(".watermarkCamera>canvas");
-var camera = document.querySelector(".watermarkCamera>.camera");
-var floatingLabel = document.querySelector("#floating");
-var systemCamera = document.querySelector(".systemCamera");
-var image = document.querySelector(".systemCamera>img");
+var container = document.querySelector(".shoot>.watermarkCamera");
+var video = document.querySelector(".shoot>.watermarkCamera>video");
+var canvas = document.querySelector(".shoot>canvas");
+var camera = document.querySelector(".shoot>.watermarkCamera>.camera");
+var floatingLabel = document.querySelector(".shoot>#floating");
+var systemCamera = document.querySelector(".shoot>.systemCamera");
+var image = document.querySelector(".shoot>.systemCamera>img");
 var input = document.querySelector(".selector>#opencamera");
 const watermark = document.querySelector(".selector>.watermark");
 
@@ -13,8 +13,23 @@ const watermark = document.querySelector(".selector>.watermark");
 //var label =document.querySelector(".selector>label");
 var context = canvas.getContext('2d');
 var width = 600;
-var height = 1000;
+var height = 2000;
 // image.align="middle";
+//添加浮动的标签文本被长按事件(改变颜色用)
+floatingLabel.addEventListener("touchstart", function (event) {
+    let timer = setTimeout(() => {//被长按事件
+        timer = 0;
+        this.style.color = "white";
+        console.log("被长按");
+    }, 600);
+    //console.log("被点击")
+    this.addEventListener("touchmove", function (event) {
+        clearTimeout(timer);
+    })
+    this.addEventListener("touchend", function (event) {
+        clearTimeout(timer);
+    })
+});
 
 //添加系统相机拍摄完成的图片
 input.addEventListener("change", function (event) {
@@ -31,21 +46,7 @@ input.addEventListener("change", function (event) {
     }
 });
 
-//添加浮动的标签文本被长按事件(改变颜色用)
-floatingLabel.addEventListener("touchstart", function (event) {
-    let timer = setTimeout(() => {//被长按事件
-        timer = 0;
-        this.style.color = "black";
-        console.log("被长按");
-    }, 600);
-    //console.log("被点击")
-    this.addEventListener("touchmove", function (event) {
-        clearTimeout(timer);
-    })
-    this.addEventListener("touchend", function (event) {
-        clearTimeout(timer);
-    })
-})
+
 
 // 获取媒体方法（旧的浏览器可能需要前缀）
 const getOldStream = () => {
@@ -114,6 +115,7 @@ function getUserMedia(constraints, success, error) {
         //     audio: false,
         //     video: { width, height, facingMode: { exact: "environment" } }
         //最新的标准API
+        console.log("使用最新API");
         navigator.mediaDevices.getUserMedia(constraints)//调用后置摄像头，前置摄像头使用'video':{ 'facingMode': "user" }
             .then(success)
             .catch(error)
@@ -144,6 +146,8 @@ const startMedia = () => {
 }
 
 startMedia();//*************
+
+/* 关闭视频流采集 */
 const stopMedia = () => {
     const stream = video.srcObject;
     const tracks = stream.getTracks();
@@ -197,4 +201,9 @@ document.addEventListener("visibilitychange", function () {
         this.timer?clearTimeout(this.timer):startMedia();//根据定时器的关闭与否进行清除定时或重新打开视频流
     }
        
+});
+
+/* 阻止弹出菜单 */
+document.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
 });

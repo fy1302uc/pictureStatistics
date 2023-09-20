@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <label id="floating">这是实验文本</label>
+ 
   <div class="navigate">
     <!-- 楼号导航 -->
     <select name="building" id="building">
@@ -34,17 +34,23 @@
     <button class="menu">...</button>
   </div>
 
-  <!-- 水印相机组件 -->
-  <div class="watermarkCamera">
-    <video muted></video>
+  <!-- 拍摄组件 -->
+  <div class="shoot">
+    <label id="floating">这是实验文本</label>
     <canvas></canvas>
-    <div class="camera"></div>
+    <!-- 水印相机组件 -->
+    <div class="watermarkCamera">
+      <video muted></video>
+      <div class="camera"></div>
+    </div>
+
+    <!-- 系统相机所拍图片展示 -->
+    <div class="systemCamera">
+      <img src="./img/R-C.jpg" alt="">
+    </div>
   </div>
 
-  <!-- 系统相机所拍图片展示 -->
-  <div class="systemCamera">
-    <img src="./img/R-C.jpg" alt="">
-  </div>
+
 
   <!-- 底部按钮导航栏 -->
   <div class="selector">
@@ -60,7 +66,7 @@
   <!-- <video id="video" style="width:100vw;" autoplay></video>
 <button id="snap">Snap Photo</button>
 <canvas id="canvas"></canvas> -->
-  
+
   <script src="./js/index.js"></script>
 
 </body>
