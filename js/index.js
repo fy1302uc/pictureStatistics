@@ -1,4 +1,5 @@
 //获取元素
+var shoot =document.querySelector(".shoot");
 var container = document.querySelector(".shoot>.watermarkCamera");
 var video = document.querySelector(".shoot>.watermarkCamera>video");
 var canvas = document.querySelector(".shoot>canvas");
@@ -17,19 +18,38 @@ var height = 2000;
 // image.align="middle";
 //添加浮动的标签文本被长按事件(改变颜色用)
 floatingLabel.addEventListener("touchstart", function (event) {
-    let timer = setTimeout(() => {//被长按事件
-        timer = 0;
+    this.timer = setTimeout(() => {//被长按事件
         this.style.color = "white";
-        console.log("被长按");
+        this.timer = 0;
     }, 600);
-    //console.log("被点击")
-    this.addEventListener("touchmove", function (event) {
-        clearTimeout(timer);
-    })
-    this.addEventListener("touchend", function (event) {
-        clearTimeout(timer);
-    })
 });
+floatingLabel.addEventListener("touchmove", function (event) {
+    clearTimeout(this.timer);
+})
+floatingLabel.addEventListener("touchend", function (event) {
+    clearTimeout(this.timer);
+})
+
+/* 添加触摸移动文本位置事件 */
+shoot.addEventListener("touchstart",function(ev){
+    ev=ev||event;
+    
+   this.pointstart={x:ev.touches[0].clientX,y:ev.touches[0].clientY};
+   if(!this.pointend) this.pointend={x:0,y:0};this.pointmove=this.pointstart;//处理开始为空报错及未移动报错
+});
+shoot.addEventListener("touchmove",function(ev){
+    ev=ev||event;
+    //console.log(ev.touches[0]);
+    this.pointmove={x:ev.touches[0].clientX,y:ev.touches[0].clientY};
+    floatingLabel.style.top=this.pointmove.y-this.pointstart.y+this.pointend.y+"px";
+    floatingLabel.style.left=this.pointmove.x-this.pointstart.x+this.pointend.x+"px";
+   
+});
+shoot.addEventListener("touchend",function(ev){
+    ev=ev||event;
+    this.pointend = {x:this.pointmove.x-this.pointstart.x+this.pointend.x,y:this.pointmove.y-this.pointstart.y+this.pointend.y};//将移动位置存储
+    //console.log(this.pointstart,this.pointend);
+})
 
 //添加系统相机拍摄完成的图片
 input.addEventListener("change", function (event) {
@@ -115,7 +135,7 @@ function getUserMedia(constraints, success, error) {
         //     audio: false,
         //     video: { width, height, facingMode: { exact: "environment" } }
         //最新的标准API
-        console.log("使用最新API");
+      // constraints.video={...constraints.video,width:{min:width-200,ideal:width,max:width+200}, height:{min:height-200,ideal:height,max:height+200}};
         navigator.mediaDevices.getUserMedia(constraints)//调用后置摄像头，前置摄像头使用'video':{ 'facingMode': "user" }
             .then(success)
             .catch(error)
@@ -138,7 +158,7 @@ const startMedia = () => {
         //调用用户媒体设备, 访问摄像头
         getUserMedia({
             audio: false,
-            video: { facingMode: "environment", width, height }//视频分辨率在之后的安卓开发中将在设置中自动获取并由用户选择设置
+            video: { facingMode: "environment", width, height}//视频分辨率在之后的安卓开发中将在设置中自动获取并由用户选择设置
         }, success, error);
     } else {
         alert('不支持访问用户媒体');

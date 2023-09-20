@@ -12,6 +12,8 @@ body {
   display: flex;
   flex-direction: column;
   user-select: none;
+  border: solid 2px;
+  box-sizing: border-box;
 }
 /*顶部导航栏样式设置*/
 .navigate {
@@ -33,6 +35,9 @@ body {
 /* 拍摄组件 */
 .shoot {
   /* 浮动文本 */
+  border: solid 2px pink;
+  flex: 1;
+  position: relative;
   /* 画图画版 */
   /* 水印相机组件 */
   /* 系统相机 */
@@ -40,7 +45,7 @@ body {
 .shoot #floating {
   position: absolute;
   display: block;
-  z-index: 15;
+  z-index: 29;
   color: black;
   font-size: 4vw;
 }
@@ -48,7 +53,6 @@ body {
   display: none;
 }
 .shoot .watermarkCamera {
-  position: relative;
   box-sizing: border-box;
   display: none;
   border: solid 2px blue;
@@ -60,8 +64,8 @@ body {
 }
 .shoot .watermarkCamera > .camera {
   position: absolute;
-  z-index: 10;
-  bottom: 5vw;
+  z-index: 22;
+  bottom: 16vw;
   left: 0;
   right: 0;
   margin: 0 auto;
