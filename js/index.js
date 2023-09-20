@@ -15,25 +15,26 @@ const watermark = document.querySelector(".selector>.watermark");
 var context = canvas.getContext('2d');
 var width = 600;
 var height = 2000;
+var textColor=['black',"white","red","green","blue"];
 // image.align="middle";
 //添加浮动的标签文本被长按事件(改变颜色用)
 floatingLabel.addEventListener("touchstart", function (event) {
     this.timer = setTimeout(() => {//被长按事件
-        this.style.color = "white";
+        this.style.color=textColor[this.timer%textColor.length];//长按改变颜色
+        //this.timer%2?this.style.color = "white":this.style.color = "black";
         this.timer = 0;
     }, 600);
 });
 floatingLabel.addEventListener("touchmove", function (event) {
     clearTimeout(this.timer);
-})
+});
 floatingLabel.addEventListener("touchend", function (event) {
     clearTimeout(this.timer);
-})
+});
 
 /* 添加触摸移动文本位置事件 */
 shoot.addEventListener("touchstart",function(ev){
-    ev=ev||event;
-    
+   ev=ev||event;
    this.pointstart={x:ev.touches[0].clientX,y:ev.touches[0].clientY};
    if(!this.pointend) this.pointend={x:0,y:0};this.pointmove=this.pointstart;//处理开始为空报错及未移动报错
 });
@@ -182,6 +183,7 @@ camera.addEventListener("click", function () {
     canvas.width = width;
     canvas.height = width * (video.clientHeight / video.clientWidth);
     context.save();
+    context.beginPath();
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     context.restore();
 
