@@ -1,6 +1,10 @@
 * {
   padding: 0;
   margin: 0;
+  user-select: none;
+}
+img {
+  pointer-events: none;
 }
 html,
 body {
@@ -11,7 +15,6 @@ body {
   background-color: gray;
   display: flex;
   flex-direction: column;
-  user-select: none;
   border: solid 2px;
   box-sizing: border-box;
 }
@@ -48,6 +51,9 @@ body {
   z-index: 29;
   color: black;
   font-size: 4vw;
+  white-space: nowrap;
+  border: solid 1px red;
+  line-height: 1;
 }
 .shoot > canvas {
   display: none;

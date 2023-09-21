@@ -16,6 +16,8 @@ var context = canvas.getContext('2d');
 var width = 600;
 var height = 2000;
 var textColor=['black',"white","red","green","blue"];
+var floatingLabelFontSize=15;
+
 // image.align="middle";
 //添加浮动的标签文本被长按事件(改变颜色用)
 floatingLabel.addEventListener("touchstart", function (event) {
@@ -33,21 +35,29 @@ floatingLabel.addEventListener("touchend", function (event) {
 });
 
 /* 添加触摸移动文本位置事件 */
+let distance = (p1,p2)=>{//计算两触点距离
+    //return Math.sqrt(Math.pow(p2.clientX-p1.clientX,2)+Math.pow(p2.clientY-p1.clientY,2));
+    return Math.sqrt((p2.clientX-p1.clientX)*(p2.clientX-p1.clientX)+(p2.clientY-p1.clientY)*(p2.clientY-p1.clientY))/3;
+}
 shoot.addEventListener("touchstart",function(ev){
    ev=ev||event;
+   this.dist=ev.touches[1]?distance(ev.touches[0],ev.touches[1]):0;//保存文本缩放前两指距离
    this.pointstart={x:ev.touches[0].clientX,y:ev.touches[0].clientY};
-   if(!this.pointend) this.pointend={x:0,y:0};this.pointmove=this.pointstart;//处理开始为空报错及未移动报错
+   if(!this.pointend) this.pointend={x:0,y:0};this.pointmove=this.pointstart;//处理开始为空报错及未移动报错(手指快速按下并抬起)
 });
 shoot.addEventListener("touchmove",function(ev){
     ev=ev||event;
-    //console.log(ev.touches[0]);
     this.pointmove={x:ev.touches[0].clientX,y:ev.touches[0].clientY};
     floatingLabel.style.top=this.pointmove.y-this.pointstart.y+this.pointend.y+"px";
     floatingLabel.style.left=this.pointmove.x-this.pointstart.x+this.pointend.x+"px";
-   
+
+    floatingLabelFontSize=floatingLabelFontSize+this.dist?distance(ev.touches[0],ev.touches[1])-this.dist:0;//手指缩放调整文本大小
+    floatingLabel.style.fontSize=floatingLabelFontSize+"px";
 });
 shoot.addEventListener("touchend",function(ev){
     ev=ev||event;
+    
+    this.dist=0;
     this.pointend = {x:this.pointmove.x-this.pointstart.x+this.pointend.x,y:this.pointmove.y-this.pointstart.y+this.pointend.y};//将移动位置存储
     //console.log(this.pointstart,this.pointend);
 })

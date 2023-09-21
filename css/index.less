@@ -1,6 +1,11 @@
 * {
     padding: 0;
     margin: 0;
+    user-select:none;//禁止文本被选中
+    
+}
+img{
+    pointer-events: none;//禁止图片被选择
 }
 
 html,
@@ -13,7 +18,7 @@ body {
     background-color: gray;
     display: flex;
     flex-direction: column;
-    user-select:none;//禁止文本被选中
+    
     border:solid 2px;
     box-sizing:border-box;
 }
@@ -53,6 +58,10 @@ body {
         z-index: 29;
         color: black;
         font-size: 4vw;
+        white-space:nowrap;
+        border:solid 1px red;
+        line-height:1;
+        
     }
     /* 画图画版 */
     >canvas {
