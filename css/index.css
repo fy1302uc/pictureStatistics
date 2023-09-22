@@ -38,7 +38,6 @@ body {
 /* 拍摄组件 */
 .shoot {
   /* 浮动文本 */
-  border: solid 2px pink;
   flex: 1;
   position: relative;
   /* 画图画版 */
@@ -52,7 +51,6 @@ body {
   color: black;
   font-size: 4vw;
   white-space: nowrap;
-  border: solid 1px red;
   line-height: 1;
 }
 .shoot > canvas {
@@ -61,12 +59,10 @@ body {
 .shoot .watermarkCamera {
   box-sizing: border-box;
   display: none;
-  border: solid 2px blue;
   height: calc(100vh - 17vw);
 }
 .shoot .watermarkCamera > video {
   width: 100%;
-  border: solid 2px deeppink;
 }
 .shoot .watermarkCamera > .camera {
   position: absolute;

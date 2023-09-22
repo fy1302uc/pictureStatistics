@@ -13,10 +13,10 @@ const watermark = document.querySelector(".selector>.watermark");
 
 //var label =document.querySelector(".selector>label");
 var context = canvas.getContext('2d');
-var width = 600;
-var height = 2000;
+var width = 900;
+var height = 600;
 var textColor=['black',"white","red","green","blue"];
-var floatingLabelFontSize=15;
+var floatingLabelFontSize=floatingLabel.clientHeight;//获取标签文本的像素值
 
 // image.align="middle";
 //添加浮动的标签文本被长按事件(改变颜色用)
@@ -51,7 +51,9 @@ shoot.addEventListener("touchmove",function(ev){
     floatingLabel.style.top=this.pointmove.y-this.pointstart.y+this.pointend.y+"px";
     floatingLabel.style.left=this.pointmove.x-this.pointstart.x+this.pointend.x+"px";
 
-    floatingLabelFontSize=floatingLabelFontSize+this.dist?distance(ev.touches[0],ev.touches[1])-this.dist:0;//手指缩放调整文本大小
+   
+    floatingLabelFontSize=floatingLabelFontSize+(this.dist?distance(ev.touches[0],ev.touches[1])-this.dist:0);//手指缩放调整文本大小
+    this.dist=this.dist?distance(ev.touches[0],ev.touches[1]):0;
     floatingLabel.style.fontSize=floatingLabelFontSize+"px";
 });
 shoot.addEventListener("touchend",function(ev){
@@ -71,7 +73,6 @@ input.addEventListener("change", function (event) {
     if (file) {
         reader.readAsDataURL(file);
     }
-
     reader.onload = (readerEvent) => {
         image.src = readerEvent.target.result;
     }
@@ -187,14 +188,22 @@ const stopMedia = () => {
     });
     video.srcObject = null;
 }
-// 点击camera按钮，从视频流中截取一帧图片并在canvas中展示并下载
 
+// 点击camera按钮，从视频流中截取一帧图片并在canvas中展示并下载
 camera.addEventListener("click", function () {
     canvas.width = width;
     canvas.height = width * (video.clientHeight / video.clientWidth);
     context.save();
+    context.fillStyle=getComputedStyle(floatingLabel).color;
+    context.font = `${floatingLabelFontSize*(width/video.clientWidth)}px serif`;
+    
     context.beginPath();
+    //console.log( getComputedStyle(floatingLabel).backgroundColor);
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    context.fillText("这是实验文本-----",115,60);
+    console.log(floatingLabel.innerHTML,(width/video.clientWidth),getComputedStyle(floatingLabel).color,floatingLabel.offsetTop);
+    context.fillText(floatingLabel.innerHTML,floatingLabel.offsetLeft*(width/video.clientWidth),(floatingLabel.offsetTop+floatingLabelFontSize)*(width/video.clientWidth));
+   
     context.restore();
 
     var dataUrl = canvas.toDataURL("image/jpeg", 1);
