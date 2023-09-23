@@ -68,7 +68,7 @@ body {
 .shoot .watermarkCamera > .camera {
   position: absolute;
   z-index: 22;
-  bottom: 16vw;
+  top: calc(100vh - 39vw);
   left: 0;
   right: 0;
   margin: 0 auto;
