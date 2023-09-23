@@ -8,13 +8,14 @@ var floatingLabel = document.querySelector(".shoot>#floating");
 var systemCamera = document.querySelector(".shoot>.systemCamera");
 var image = document.querySelector(".shoot>.systemCamera>img");
 var input = document.querySelector(".selector>#opencamera");
+var saveImg=document.querySelector(".selector>.saveImage");
 const watermark = document.querySelector(".selector>.watermark");
 
 
 //var label =document.querySelector(".selector>label");
 var context = canvas.getContext('2d');
-var width = 900;
-var height = 600;
+var width = 1000;
+var height = 800;
 var textColor=['black',"white","red","green","blue"];
 var floatingLabelFontSize=floatingLabel.clientHeight;//获取标签文本的像素值
 
@@ -75,6 +76,7 @@ input.addEventListener("change", function (event) {
     }
     reader.onload = (readerEvent) => {
         image.src = readerEvent.target.result;
+        console.log()
     }
 });
 
@@ -200,8 +202,7 @@ camera.addEventListener("click", function () {
     context.beginPath();
     //console.log( getComputedStyle(floatingLabel).backgroundColor);
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    context.fillText("这是实验文本-----",115,60);
-    console.log(floatingLabel.innerHTML,(width/video.clientWidth),getComputedStyle(floatingLabel).color,floatingLabel.offsetTop);
+    //console.log(floatingLabel.innerHTML,(width/video.clientWidth),getComputedStyle(floatingLabel).color,floatingLabel.offsetTop);
     context.fillText(floatingLabel.innerHTML,floatingLabel.offsetLeft*(width/video.clientWidth),(floatingLabel.offsetTop+floatingLabelFontSize)*(width/video.clientWidth));
    
     context.restore();
@@ -248,3 +249,7 @@ document.addEventListener("visibilitychange", function () {
 document.addEventListener("contextmenu", (e) => {
     e.preventDefault();
 });
+
+saveImage.addEventListener("click",()=>{
+
+})
