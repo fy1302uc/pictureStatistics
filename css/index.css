@@ -40,7 +40,7 @@ body {
   /* 浮动文本 */
   flex: 1;
   position: relative;
-  overflow: hidden;
+  height: calc(100vh - 17vw);
   /* 画图画版 */
   /* 水印相机组件 */
   /* 系统相机 */
@@ -60,7 +60,6 @@ body {
 .shoot .watermarkCamera {
   box-sizing: border-box;
   display: none;
-  height: calc(100vh - 17vw);
 }
 .shoot .watermarkCamera > video {
   width: 100%;
@@ -68,7 +67,7 @@ body {
 .shoot .watermarkCamera > .camera {
   position: absolute;
   z-index: 22;
-  top: calc(100vh - 39vw);
+  bottom: 17vw;
   left: 0;
   right: 0;
   margin: 0 auto;

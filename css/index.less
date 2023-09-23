@@ -51,7 +51,8 @@ body {
     /* 浮动文本 */
     flex:1;
     position:relative;
-    overflow:hidden;
+    height: calc(100vh - 17vw);
+    //overflow:hidden;
     #floating {
         position: absolute;
         display: block;
@@ -71,7 +72,7 @@ body {
         //position: relative;
         box-sizing: border-box;
         display: none;
-        height: calc(100vh - 17vw);
+      
 
         >video {
             width: 100%;
@@ -79,7 +80,7 @@ body {
         >.camera {
             position: absolute;
             z-index: 22;
-            top:calc(100vh - 39vw);
+            bottom:17vw;
             left: 0;
             right: 0;
             margin: 0 auto;
