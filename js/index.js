@@ -8,7 +8,7 @@ var floatingLabel = document.querySelector(".shoot>#floating");
 var systemCamera = document.querySelector(".shoot>.systemCamera");
 var image = document.querySelector(".shoot>.systemCamera>img");
 var input = document.querySelector(".selector>#opencamera");
-var saveImg=document.querySelector(".selector>.saveImage");
+var saveImage=document.querySelector(".selector>.saveImage");
 const watermark = document.querySelector(".selector>.watermark");
 
 
