@@ -46,7 +46,7 @@ shoot.addEventListener("touchstart", function (ev) {
     this.count++;
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-        if (this.count == 2) {
+        if (this.count == 2 && !ev.touches[1]) {
             floatingLabel.innerText = prompt("文本输入框", floatingLabel.innerText);
             floatingLabel.style.top=0;
             floatingLabel.style.left=0;
