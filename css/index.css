@@ -40,8 +40,8 @@ body {
   /* 浮动文本 */
   flex: 1;
   position: relative;
-  height: calc(100vh - 17vw);
   border: solid 2px deeppink;
+  overflow: hidden;
   /* 画图画版 */
   /* 水印相机组件 */
   /* 系统相机 */

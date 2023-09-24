@@ -1,5 +1,6 @@
+
 //获取元素
-var shoot =document.querySelector(".shoot");
+var shoot = document.querySelector(".shoot");
 var container = document.querySelector(".shoot>.watermarkCamera");
 var video = document.querySelector(".shoot>.watermarkCamera>video");
 var canvas = document.querySelector(".shoot>canvas");
@@ -8,7 +9,7 @@ var floatingLabel = document.querySelector(".shoot>#floating");
 var systemCamera = document.querySelector(".shoot>.systemCamera");
 var image = document.querySelector(".shoot>.systemCamera>img");
 var input = document.querySelector(".selector>#opencamera");
-var saveImage=document.querySelector(".selector>.saveImage");
+var saveImage = document.querySelector(".selector>.saveImage");
 const watermark = document.querySelector(".selector>.watermark");
 
 
@@ -16,14 +17,14 @@ const watermark = document.querySelector(".selector>.watermark");
 var context = canvas.getContext('2d');
 var width = 1000;
 var height = 800;
-var textColor=['black',"white","red","green","blue"];
-var floatingLabelFontSize=floatingLabel.clientHeight;//获取标签文本的像素值
+var textColor = ['black', "white", "red", "green", "blue"];
+var floatingLabelFontSize = floatingLabel.clientHeight;//获取标签文本的像素值
 
 // image.align="middle";
 //添加浮动的标签文本被长按事件(改变颜色用)
 floatingLabel.addEventListener("touchstart", function (event) {
     this.timer = setTimeout(() => {//被长按事件
-        this.style.color=textColor[this.timer%textColor.length];//长按改变颜色
+        this.style.color = textColor[this.timer % textColor.length];//长按改变颜色
         //this.timer%2?this.style.color = "white":this.style.color = "black";
         this.timer = 0;
     }, 600);
@@ -36,38 +37,50 @@ floatingLabel.addEventListener("touchend", function (event) {
 });
 
 /* 添加触摸移动文本位置事件 */
-let distance = (p1,p2)=>{//计算两触点距离
+let distance = (p1, p2) => {//计算两触点距离
     //return Math.sqrt(Math.pow(p2.clientX-p1.clientX,2)+Math.pow(p2.clientY-p1.clientY,2));
-    return Math.sqrt((p2.clientX-p1.clientX)*(p2.clientX-p1.clientX)+(p2.clientY-p1.clientY)*(p2.clientY-p1.clientY))/3;
+    return Math.sqrt((p2.clientX - p1.clientX) * (p2.clientX - p1.clientX) + (p2.clientY - p1.clientY) * (p2.clientY - p1.clientY)) / 3;
 }
-shoot.addEventListener("touchstart",function(ev){
-   ev=ev||event;
-   this.dist=ev.touches[1]?distance(ev.touches[0],ev.touches[1]):0;//保存文本缩放前两指距离
-   this.pointstart={x:ev.touches[0].clientX,y:ev.touches[0].clientY};
-   if(!this.pointend) this.pointend={x:0,y:0};this.pointmove=this.pointstart;//处理开始为空报错及未移动报错(手指快速按下并抬起)
-});
-shoot.addEventListener("touchmove",function(ev){
-    ev=ev||event;
-    this.pointmove={x:ev.touches[0].clientX,y:ev.touches[0].clientY};
-    floatingLabel.style.top=this.pointmove.y-this.pointstart.y+this.pointend.y+"px";
-    floatingLabel.style.left=this.pointmove.x-this.pointstart.x+this.pointend.x+"px";
 
-   
-    floatingLabelFontSize=floatingLabelFontSize+(this.dist?distance(ev.touches[0],ev.touches[1])-this.dist:0);//手指缩放调整文本大小
-    this.dist=this.dist?distance(ev.touches[0],ev.touches[1]):0;
-    floatingLabel.style.fontSize=floatingLabelFontSize+"px";
+shoot.addEventListener("touchstart", function (ev) {
+    this.count++;
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+        if (this.count == 2) {
+            floatingLabel.innerText = prompt("文本输入框", floatingLabel.innerText);
+            floatingLabel.style.top=0;
+            floatingLabel.style.left=0;
+        }
+        this.count = 0;
+    }, 500);
+
+    ev = ev || event;
+    this.dist = ev.touches[1] ? distance(ev.touches[0], ev.touches[1]) : 0;//保存文本缩放前两指距离
+    this.pointstart = { x: ev.touches[0].clientX, y: ev.touches[0].clientY };
+    if (!this.pointend) this.pointend = { x: 0, y: 0 }; this.pointmove = this.pointstart;//处理开始为空报错及未移动报错(手指快速按下并抬起)
 });
-shoot.addEventListener("touchend",function(ev){
-    ev=ev||event;
-    
-    this.dist=0;
-    this.pointend = {x:this.pointmove.x-this.pointstart.x+this.pointend.x,y:this.pointmove.y-this.pointstart.y+this.pointend.y};//将移动位置存储
+shoot.addEventListener("touchmove", function (ev) {
+    ev = ev || event;
+    this.pointmove = { x: ev.touches[0].clientX, y: ev.touches[0].clientY };
+    floatingLabel.style.top = this.pointmove.y - this.pointstart.y + this.pointend.y + "px";
+    floatingLabel.style.left = this.pointmove.x - this.pointstart.x + this.pointend.x + "px";
+
+
+    floatingLabelFontSize = floatingLabelFontSize + (this.dist ? distance(ev.touches[0], ev.touches[1]) - this.dist : 0);//手指缩放调整文本大小
+    this.dist = this.dist ? distance(ev.touches[0], ev.touches[1]) : 0;
+    floatingLabel.style.fontSize = floatingLabelFontSize + "px";
+});
+shoot.addEventListener("touchend", function (ev) {
+    ev = ev || event;
+
+    this.dist = 0;
+    this.pointend = { x: this.pointmove.x - this.pointstart.x + this.pointend.x, y: this.pointmove.y - this.pointstart.y + this.pointend.y };//将移动位置存储
     //console.log(this.pointstart,this.pointend);
 })
 
 //添加系统相机拍摄完成的图片
 input.addEventListener("change", function (event) {
-    systemCamera.style.display="block";
+    systemCamera.style.display = "block";
     container.style.display = "none";
     var file = event.target.files[0];
     let reader = new FileReader();
@@ -149,7 +162,7 @@ function getUserMedia(constraints, success, error) {
         //     audio: false,
         //     video: { width, height, facingMode: { exact: "environment" } }
         //最新的标准API
-      // constraints.video={...constraints.video,width:{min:width-200,ideal:width,max:width+200}, height:{min:height-200,ideal:height,max:height+200}};
+        // constraints.video={...constraints.video,width:{min:width-200,ideal:width,max:width+200}, height:{min:height-200,ideal:height,max:height+200}};
         navigator.mediaDevices.getUserMedia(constraints)//调用后置摄像头，前置摄像头使用'video':{ 'facingMode': "user" }
             .then(success)
             .catch(error)
@@ -172,7 +185,7 @@ const startMedia = () => {
         //调用用户媒体设备, 访问摄像头
         getUserMedia({
             audio: false,
-            video: { facingMode: "environment", width, height}//视频分辨率在之后的安卓开发中将在设置中自动获取并由用户选择设置
+            video: { facingMode: "environment", width, height }//视频分辨率在之后的安卓开发中将在设置中自动获取并由用户选择设置
         }, success, error);
     } else {
         alert('不支持访问用户媒体');
@@ -196,15 +209,15 @@ camera.addEventListener("click", function () {
     canvas.width = width;
     canvas.height = width * (video.clientHeight / video.clientWidth);
     context.save();
-    context.fillStyle=getComputedStyle(floatingLabel).color;
-    context.font = `${floatingLabelFontSize*(width/video.clientWidth)}px serif`;
-    
+    context.fillStyle = getComputedStyle(floatingLabel).color;
+    context.font = `${floatingLabelFontSize * (width / video.clientWidth)}px serif`;
+
     context.beginPath();
     //console.log( getComputedStyle(floatingLabel).backgroundColor);
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     //console.log(floatingLabel.innerHTML,(width/video.clientWidth),getComputedStyle(floatingLabel).color,floatingLabel.offsetTop);
-    context.fillText(floatingLabel.innerHTML,floatingLabel.offsetLeft*(width/video.clientWidth),(floatingLabel.offsetTop+floatingLabelFontSize)*(width/video.clientWidth));
-   
+    context.fillText(floatingLabel.innerHTML, floatingLabel.offsetLeft * (width / video.clientWidth), (floatingLabel.offsetTop + floatingLabelFontSize) * (width / video.clientWidth));
+
     context.restore();
 
     var dataUrl = canvas.toDataURL("image/jpeg", 1);
@@ -220,29 +233,29 @@ camera.addEventListener("click", function () {
 watermark.addEventListener("click", function () {
     if (video.paused) {
         container.style.display = "block";
-        systemCamera.style.display="none";
+        systemCamera.style.display = "none";
         video.play();
     } else {
         container.style.display = "none";
-        systemCamera.style.display="block";
+        systemCamera.style.display = "block";
         video.pause();
     }
 });
 
 // 在用户离开或隐藏这个页面时关闭视频采集,节省资源*************
 document.addEventListener("visibilitychange", function () {
-    
+
     if (document.visibilityState == "hidden") {
-        this.timer=setTimeout(()=>{//设置定时器延迟1000秒在关闭视频流
+        this.timer = setTimeout(() => {//设置定时器延迟1000秒在关闭视频流
             container.style.display = "none";
             stopMedia();
             video.pause();
-            this.timer=0;
-        },1000000);
+            this.timer = 0;
+        }, 1000000);
     } else if (document.visibilityState == "visible") {
-        this.timer?clearTimeout(this.timer):startMedia();//根据定时器的关闭与否进行清除定时或重新打开视频流
+        this.timer ? clearTimeout(this.timer) : startMedia();//根据定时器的关闭与否进行清除定时或重新打开视频流
     }
-       
+
 });
 
 /* 阻止弹出菜单 */
@@ -250,6 +263,6 @@ document.addEventListener("contextmenu", (e) => {
     e.preventDefault();
 });
 
-saveImage.addEventListener("click",()=>{
+saveImage.addEventListener("click", () => {
 
 })
