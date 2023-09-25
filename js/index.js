@@ -16,7 +16,7 @@ const watermark = document.querySelector(".selector>.watermark");
 //var label =document.querySelector(".selector>label");
 var context = canvas.getContext('2d');
 var width = 1000;
-var height = 800;
+var height = 1000;
 var textColor = ['black', "white", "red", "green", "blue"];
 var floatingLabelFontSize = floatingLabel.clientHeight;//获取标签文本的像素值
 
@@ -43,29 +43,33 @@ let distance = (p1, p2) => {//计算两触点距离
 }
 
 shoot.addEventListener("touchstart", function (ev) {
+    /* 实现双击效果 */
     this.count++;
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-        if (this.count == 2 && !ev.touches[1]) {
-            floatingLabel.innerText = prompt("文本输入框", floatingLabel.innerText);
+        if (this.count == 2 && !ev.touches[1]) {//双击功能实现
+            floatingLabel.innerText = prompt("请输入水印文本", floatingLabel.innerText) || floatingLabel.innerText;
             floatingLabel.style.top=0;
             floatingLabel.style.left=0;
         }
         this.count = 0;
-    }, 500);
-
+    }, 200);
+    
+    /* 实现缩放及移动标签前置工作 */
     ev = ev || event;
     this.dist = ev.touches[1] ? distance(ev.touches[0], ev.touches[1]) : 0;//保存文本缩放前两指距离
-    this.pointstart = { x: ev.touches[0].clientX, y: ev.touches[0].clientY };
+    this.pointstart = { x: ev.touches[0].clientX, y: ev.touches[0].clientY };//实现标签移动前保存手指开始数据
     if (!this.pointend) this.pointend = { x: 0, y: 0 }; this.pointmove = this.pointstart;//处理开始为空报错及未移动报错(手指快速按下并抬起)
 });
+
 shoot.addEventListener("touchmove", function (ev) {
     ev = ev || event;
+    /* 实现移动标签功能 */
     this.pointmove = { x: ev.touches[0].clientX, y: ev.touches[0].clientY };
     floatingLabel.style.top = this.pointmove.y - this.pointstart.y + this.pointend.y + "px";
     floatingLabel.style.left = this.pointmove.x - this.pointstart.x + this.pointend.x + "px";
 
-
+    /* 实现手指缩放标签 */
     floatingLabelFontSize = floatingLabelFontSize + (this.dist ? distance(ev.touches[0], ev.touches[1]) - this.dist : 0);//手指缩放调整文本大小
     this.dist = this.dist ? distance(ev.touches[0], ev.touches[1]) : 0;
     floatingLabel.style.fontSize = floatingLabelFontSize + "px";
@@ -83,13 +87,19 @@ input.addEventListener("change", function (event) {
     systemCamera.style.display = "block";
     container.style.display = "none";
     var file = event.target.files[0];
+    console.log(event.target.files);
     let reader = new FileReader();
     if (file) {
         reader.readAsDataURL(file);
     }
     reader.onload = (readerEvent) => {
         image.src = readerEvent.target.result;
-        console.log()
+        image.onload=function(ev){
+            this.width=this.naturalWidth;
+            //console.log("imgWidth:"+this.naturalWidth+"|"+this.width);
+        }
+        
+        //console.log()
     }
 });
 
@@ -206,7 +216,7 @@ const stopMedia = () => {
 
 // 点击camera按钮，从视频流中截取一帧图片并在canvas中展示并下载
 camera.addEventListener("click", function () {
-    canvas.width = width;
+   /*  canvas.width = width;
     canvas.height = width * (video.clientHeight / video.clientWidth);
     context.save();
     context.fillStyle = getComputedStyle(floatingLabel).color;
@@ -223,8 +233,9 @@ camera.addEventListener("click", function () {
     var dataUrl = canvas.toDataURL("image/jpeg", 1);
     var link = document.createElement("a");
     link.href = dataUrl;
-    link.download = "myTest.jpg";
-    link.click();
+    link.download = "myTest.jpg";//-----------------------------------------------需要随着楼号及时间改名---------------------------------------------------
+    link.click(); */
+    drawImage(video);
 });
 
 
@@ -264,5 +275,5 @@ document.addEventListener("contextmenu", (e) => {
 });
 
 saveImage.addEventListener("click", () => {
-
+ drawImage.call(image,image);
 })
