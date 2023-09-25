@@ -109,19 +109,21 @@ startMedia();//*************
 
 
 // 点击camera按钮，从视频流中截取一帧图片并画在canvas中并下载
-camera.addEventListener("click", function () {
-    if(!videoMode) drawImage(video);
-});
+// camera.addEventListener("click", function () {
+//     if(!videoMode){drawImage(video)};
+// });
 camera.addEventListener("touchstart", (ev) => {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
         videoMode=!videoMode;
         point.style.display=videoMode?"block":"none";
+        this.timer=0;
     }, 1000);
     return false;
 });
 camera.addEventListener("touchend", () => {
     clearTimeout(this.timer);
+    if(!videoMode){drawImage(video)};
     return false;
 });
 
