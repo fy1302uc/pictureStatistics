@@ -17,12 +17,12 @@ const watermark = document.querySelector(".selector>.watermark");
 
 //var label =document.querySelector(".selector>label");
 var context = canvas.getContext('2d');
-var width = 1000;//水印相机拾取分辨率
+var width = 1000;//水印相机拾取分辨率7
 var height = 1000;
 var textColor = ['black', "white", "red", "green", "blue"];//标签设置文本长按颜色变换
 var floatingLabelFontSize = floatingLabel.clientHeight;//获取标签文本的像素值
 var sharp = 0.2;//设置下载图片清晰度
-var videoMode = false;//设置红点是否显示及处于何种模式
+var videoMode = false;//设置红点是否显示及处于何种模式false为拍照模式
 
 // image.align="middle";
 //添加浮动的标签文本被长按事件(改变颜色用)
@@ -47,7 +47,7 @@ let distance = (p1, p2) => {//计算两触点距离
 }
 
 shoot.addEventListener("touchstart", function (ev) {
-    /* 实现双击效果 */
+    /* 实现双击效果打开标签文本输入框 */
     this.count++;
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
@@ -55,6 +55,8 @@ shoot.addEventListener("touchstart", function (ev) {
             floatingLabel.innerText = prompt("请输入水印文本", floatingLabel.innerText) || floatingLabel.innerText;
             floatingLabel.style.top = 0;
             floatingLabel.style.left = 0;
+            //this.pointstart={}
+            this.pointend={x:0,y:0};
         }
         this.count = 0;
     }, 200);
@@ -88,8 +90,9 @@ shoot.addEventListener("touchend", function (ev) {
 
 //添加系统相机拍摄完成的图片
 input.addEventListener("change", function (event) {
-    systemCamera.style.display = "block";
-    container.style.display = "none";
+    systemCamera.style.display = "block";//打开系统相机容器
+    container.style.display = "none";//关闭水印相机容器
+    saveImage.disabled=false;//启用(保存图片)按钮
     var file = event.target.files[0];
     let reader = new FileReader();
     if (file) {
@@ -97,76 +100,29 @@ input.addEventListener("change", function (event) {
     }
     reader.onload = (readerEvent) => {
         image.src = readerEvent.target.result;
-
         //console.log()
     }
 });
 
-function success(stream) {
-    //兼容webkit核心浏览器
-    //let CompatibleURL = window.URL || window.webkitURL;
-    //将视频流设置为video元素的源
-    //console.log(stream);
-    //video.src = CompatibleURL.createObjectURL(stream);
-    video.srcObject = stream;
-    //video.play();
-}
-function error(error) {
-    console.log(`访问用户媒体设备失败${error.name}, ${error.message}`);
-}
-function getUserMedia(constraints, success, error) {
-    if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia(constraints)//调用后置摄像头'video':{ 'facingMode': "environment" }，前置摄像头使用'video':{ 'facingMode': "user" }
-            .then(success)
-            .catch(error)
-    } else if (navigator.webkitGetUserMedia) {
-        //webkit核心浏览器
-        navigator.webkitGetUserMedia(constraints, success, error)
-    } else if (navigator.mozGetUserMedia) {
-        //firfox浏览器
-        navigator.mozGetUserMedia(constraints, success, error);
-    } else if (navigator.getUserMedia) {
-        //旧版API
-        navigator.getUserMedia(constraints, success, error);
-    }
-}
-const startMedia = () => {
-    if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
-        //调用用户媒体设备, 访问摄像头
-        getUserMedia({
-            audio: false,
-            video: { facingMode: "environment", width, height }//视频分辨率在之后的安卓开发中将在设置中自动获取并由用户选择设置
-        }, success, error);
-    } else {
-        alert('不支持访问用户媒体');
-    }
-}
+
 startMedia();//*************
 
-/* 关闭视频流采集 */
-const stopMedia = () => {
-    const stream = video.srcObject;
-    const tracks = stream.getTracks();
-    tracks.forEach(function (track) {
-        track.stop();
-    });
-    video.srcObject = null;
-}
 
 // 点击camera按钮，从视频流中截取一帧图片并画在canvas中并下载
 camera.addEventListener("click", function () {
     if(!videoMode) drawImage(video);
 });
-camera.addEventListener("touchstart", () => {
-    
+camera.addEventListener("touchstart", (ev) => {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
         videoMode=!videoMode;
         point.style.display=videoMode?"block":"none";
     }, 1000);
+    return false;
 });
 camera.addEventListener("touchend", () => {
     clearTimeout(this.timer);
+    return false;
 });
 
 
@@ -175,10 +131,12 @@ watermark.addEventListener("click", function () {
     if (video.paused) {
         container.style.display = "block";
         systemCamera.style.display = "none";
+        saveImage.disabled=true;//水印相机开启时禁用(保存图片)按钮
         video.play();
     } else {
         container.style.display = "none";
         systemCamera.style.display = "block";
+        saveImage.disabled=false;
         video.pause();
     }
 });
