@@ -49,7 +49,7 @@ const getStream = () => {
 /* 实现拍摄的图片保存下载,从视频流中截取一帧图片并画在canvas中并下载 */
 let drawImage =(el)=>{
     let width = el.naturalWidth?el.naturalWidth:window.width;//处理元素img和video原始宽度兼容
-    alert("imgWidth:"+width);
+    //alert("imgWidth:"+width);
     canvas.width = width;
     canvas.height = width * (el.clientHeight / el.clientWidth);
     context.save();
