@@ -75,9 +75,26 @@ body {
   margin: 0 auto;
   width: 15vw;
   height: 15vw;
-  background-color: white;
-  border: 1vw solid black;
+  background-color: transparent;
+  border: 0.5vw solid white;
   border-radius: 50%;
+  padding: 2vw;
+  box-sizing: border-box;
+}
+.shoot .watermarkCamera > .camera > .changer {
+  overflow: hidden;
+  background-color: white;
+  border-radius: 50%;
+  height: 100%;
+}
+.shoot .watermarkCamera > .camera > .changer > .point {
+  display: none;
+  width: 20%;
+  height: 20%;
+  border-radius: 50%;
+  background-color: red;
+  margin: 0 auto;
+  margin-top: 40%;
 }
 .shoot .systemCamera {
   flex: 1;

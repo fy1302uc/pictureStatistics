@@ -5,6 +5,8 @@ var container = document.querySelector(".shoot>.watermarkCamera");
 var video = document.querySelector(".shoot>.watermarkCamera>video");
 var canvas = document.querySelector(".shoot>canvas");
 var camera = document.querySelector(".shoot>.watermarkCamera>.camera");
+var changer = document.querySelector(".shoot>.watermarkCamera>.camera>.changer");
+var point = document.querySelector(".shoot>.watermarkCamera>.camera>.changer>.point");
 var floatingLabel = document.querySelector(".shoot>#floating");
 var systemCamera = document.querySelector(".shoot>.systemCamera");
 var image = document.querySelector(".shoot>.systemCamera>img");
@@ -15,10 +17,12 @@ const watermark = document.querySelector(".selector>.watermark");
 
 //var label =document.querySelector(".selector>label");
 var context = canvas.getContext('2d');
-var width = 1000;
+var width = 1000;//水印相机拾取分辨率
 var height = 1000;
-var textColor = ['black', "white", "red", "green", "blue"];
+var textColor = ['black', "white", "red", "green", "blue"];//标签设置文本长按颜色变换
 var floatingLabelFontSize = floatingLabel.clientHeight;//获取标签文本的像素值
+var sharp = 0.2;//设置下载图片清晰度
+var videoMode = false;//设置红点是否显示及处于何种模式
 
 // image.align="middle";
 //添加浮动的标签文本被长按事件(改变颜色用)
@@ -27,7 +31,7 @@ floatingLabel.addEventListener("touchstart", function (event) {
         this.style.color = textColor[this.timer % textColor.length];//长按改变颜色
         //this.timer%2?this.style.color = "white":this.style.color = "black";
         this.timer = 0;
-    }, 600);
+    }, 500);
 });
 floatingLabel.addEventListener("touchmove", function (event) {
     clearTimeout(this.timer);
@@ -49,12 +53,12 @@ shoot.addEventListener("touchstart", function (ev) {
     this.timer = setTimeout(() => {
         if (this.count == 2 && !ev.touches[1]) {//双击功能实现
             floatingLabel.innerText = prompt("请输入水印文本", floatingLabel.innerText) || floatingLabel.innerText;
-            floatingLabel.style.top=0;
-            floatingLabel.style.left=0;
+            floatingLabel.style.top = 0;
+            floatingLabel.style.left = 0;
         }
         this.count = 0;
     }, 200);
-    
+
     /* 实现缩放及移动标签前置工作 */
     ev = ev || event;
     this.dist = ev.touches[1] ? distance(ev.touches[0], ev.touches[1]) : 0;//保存文本缩放前两指距离
@@ -87,73 +91,16 @@ input.addEventListener("change", function (event) {
     systemCamera.style.display = "block";
     container.style.display = "none";
     var file = event.target.files[0];
-    console.log(event.target.files);
     let reader = new FileReader();
     if (file) {
         reader.readAsDataURL(file);
     }
     reader.onload = (readerEvent) => {
         image.src = readerEvent.target.result;
-        image.onload=function(ev){
-            this.width=this.naturalWidth;
-            //console.log("imgWidth:"+this.naturalWidth+"|"+this.width);
-        }
-        
+
         //console.log()
     }
 });
-
-
-
-// 获取媒体方法（旧的浏览器可能需要前缀）
-const getOldStream = () => {
-    navigator.getMedia = (navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia);
-
-    // 获取视频流
-    navigator.getMedia(
-        {
-            video: { facingMode: "environment", width, height },//视频分辨率在之后的安卓开发中将在设置中自动获取并由用户选择设置
-            // video: { width, height },//视频分辨率在之后的安卓开发中将在设置中自动获取并由用户选择设置
-            audio: false
-        },
-        function (stream) {
-            if (navigator.mozGetUserMedia) {
-                video.mozSrcObject = stream;
-            } else {
-                //var vendorURL = window.URL || window.webkitURL;
-                video.srcObject = stream;
-            }
-            // video.play();
-
-        },
-        function (err) {
-            console.log("An error occured! " + err);
-        }
-    );
-}
-
-// 获取媒体方法(新浏览器使用的新协议)
-const getStream = () => {
-    var constraints = { audio: false, video: { width, height, facingMode: { exact: "environment" } } };
-    //var constraints = { audio: false, video: { width, height } };
-    navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then(function (mediaStream) {
-            video.srcObject = mediaStream;
-            // video.onloadedmetadata = function (e) {
-            //     video.play();
-            // };
-        })
-        .catch(function (err) {
-            console.log(err.name + ": " + err.message);
-        }); // 总是在最后检查错误
-
-}
-
-
 
 function success(stream) {
     //兼容webkit核心浏览器
@@ -169,11 +116,7 @@ function error(error) {
 }
 function getUserMedia(constraints, success, error) {
     if (navigator.mediaDevices.getUserMedia) {
-        //     audio: false,
-        //     video: { width, height, facingMode: { exact: "environment" } }
-        //最新的标准API
-        // constraints.video={...constraints.video,width:{min:width-200,ideal:width,max:width+200}, height:{min:height-200,ideal:height,max:height+200}};
-        navigator.mediaDevices.getUserMedia(constraints)//调用后置摄像头，前置摄像头使用'video':{ 'facingMode': "user" }
+        navigator.mediaDevices.getUserMedia(constraints)//调用后置摄像头'video':{ 'facingMode': "environment" }，前置摄像头使用'video':{ 'facingMode': "user" }
             .then(success)
             .catch(error)
     } else if (navigator.webkitGetUserMedia) {
@@ -187,9 +130,6 @@ function getUserMedia(constraints, success, error) {
         navigator.getUserMedia(constraints, success, error);
     }
 }
-
-
-
 const startMedia = () => {
     if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
         //调用用户媒体设备, 访问摄像头
@@ -201,7 +141,6 @@ const startMedia = () => {
         alert('不支持访问用户媒体');
     }
 }
-
 startMedia();//*************
 
 /* 关闭视频流采集 */
@@ -214,30 +153,21 @@ const stopMedia = () => {
     video.srcObject = null;
 }
 
-// 点击camera按钮，从视频流中截取一帧图片并在canvas中展示并下载
+// 点击camera按钮，从视频流中截取一帧图片并画在canvas中并下载
 camera.addEventListener("click", function () {
-   /*  canvas.width = width;
-    canvas.height = width * (video.clientHeight / video.clientWidth);
-    context.save();
-    context.fillStyle = getComputedStyle(floatingLabel).color;
-    context.font = `${floatingLabelFontSize * (width / video.clientWidth)}px serif`;
-
-    context.beginPath();
-    //console.log( getComputedStyle(floatingLabel).backgroundColor);
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    //console.log(floatingLabel.innerHTML,(width/video.clientWidth),getComputedStyle(floatingLabel).color,floatingLabel.offsetTop);
-    context.fillText(floatingLabel.innerHTML, floatingLabel.offsetLeft * (width / video.clientWidth), (floatingLabel.offsetTop + floatingLabelFontSize) * (width / video.clientWidth));
-
-    context.restore();
-
-    var dataUrl = canvas.toDataURL("image/jpeg", 1);
-    var link = document.createElement("a");
-    link.href = dataUrl;
-    link.download = "myTest.jpg";//-----------------------------------------------需要随着楼号及时间改名---------------------------------------------------
-    link.click(); */
-    drawImage(video);
+    if(!videoMode) drawImage(video);
 });
-
+camera.addEventListener("touchstart", () => {
+    
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+        videoMode=!videoMode;
+        point.style.display=videoMode?"block":"none";
+    }, 1000);
+});
+camera.addEventListener("touchend", () => {
+    clearTimeout(this.timer);
+});
 
 
 //点击水印相机按钮弹出和关闭水印相机窗口
@@ -275,5 +205,5 @@ document.addEventListener("contextmenu", (e) => {
 });
 
 saveImage.addEventListener("click", () => {
- drawImage.call(image,image);
+    drawImage.call(image, image);
 })
