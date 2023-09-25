@@ -123,7 +123,9 @@ camera.addEventListener("touchstart", (ev) => {
 });
 camera.addEventListener("touchend", () => {
     clearTimeout(this.timer);
-    if(!videoMode){drawImage(video)};
+    if(!videoMode){
+        drawImage(video)
+    };
     //return false;
 });
 
