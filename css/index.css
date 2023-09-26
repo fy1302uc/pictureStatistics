@@ -2,6 +2,7 @@
   padding: 0;
   margin: 0;
   user-select: none;
+  list-style: none;
 }
 img {
   pointer-events: none;
@@ -15,12 +16,9 @@ body {
   background-color: gray;
   display: flex;
   flex-direction: column;
-  border: solid 2px;
-  box-sizing: border-box;
 }
 /*顶部导航栏样式设置*/
 .navigate {
-  border: solid 1px deeppink;
   display: flex;
   justify-content: space-between;
 }
@@ -37,14 +35,30 @@ body {
 }
 /* 拍摄组件 */
 .shoot {
-  /* 浮动文本 */
   flex: 1;
   position: relative;
   border: solid 2px deeppink;
   overflow: hidden;
+  /* 右上角菜单列表 */
+  /* 浮动文本 */
   /* 画图画版 */
   /* 水印相机组件 */
   /* 系统相机 */
+}
+.shoot > .menuSelect {
+  position: absolute;
+  display: none;
+  right: 0;
+  top: 0;
+  background-color: black;
+  border: solid 1px red;
+  color: white;
+  font-size: 4vw;
+  z-index: 99;
+}
+.shoot > .menuSelect > li {
+  border-top: solid 1px white;
+  padding: 1vw 5vw;
 }
 .shoot #floating {
   position: absolute;

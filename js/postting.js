@@ -118,3 +118,10 @@ const stopMedia = () => {
     });
     video.srcObject = null;
 }
+/* 添加触摸移动文本位置事件 */
+let distance = (p1, p2) => {//计算两触点距离
+    //return Math.sqrt(Math.pow(p2.clientX-p1.clientX,2)+Math.pow(p2.clientY-p1.clientY,2));
+    return Math.sqrt((p2.clientX - p1.clientX) * (p2.clientX - p1.clientX) + (p2.clientY - p1.clientY) * (p2.clientY - p1.clientY)) / 3;
+}
+
+

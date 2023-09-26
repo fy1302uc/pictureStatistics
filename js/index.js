@@ -1,5 +1,7 @@
 
 //获取元素
+var menu = document.querySelector(".navigate>.menu");
+var menuSelect = document.querySelector(".shoot>.menuSelect");
 var shoot = document.querySelector(".shoot");
 var container = document.querySelector(".shoot>.watermarkCamera");
 var video = document.querySelector(".shoot>.watermarkCamera>video");
@@ -23,8 +25,9 @@ var textColor = ['black', "white", "red", "green", "blue"];//标签设置文本�
 var floatingLabelFontSize = floatingLabel.clientHeight;//获取标签文本的像素值
 var sharp = 0.2;//设置下载图片清晰度
 var videoMode = false;//设置红点是否显示及处于何种模式false为拍照模式
-
+var menuShow = false;//右上角菜单是否显示;
 // image.align="middle";
+startMedia();//*************
 //添加浮动的标签文本被长按事件(改变颜色用)
 floatingLabel.addEventListener("touchstart", function (event) {
     this.timer = setTimeout(() => {//被长按事件
@@ -40,11 +43,7 @@ floatingLabel.addEventListener("touchend", function (event) {
     clearTimeout(this.timer);
 });
 
-/* 添加触摸移动文本位置事件 */
-let distance = (p1, p2) => {//计算两触点距离
-    //return Math.sqrt(Math.pow(p2.clientX-p1.clientX,2)+Math.pow(p2.clientY-p1.clientY,2));
-    return Math.sqrt((p2.clientX - p1.clientX) * (p2.clientX - p1.clientX) + (p2.clientY - p1.clientY) * (p2.clientY - p1.clientY)) / 3;
-}
+
 
 shoot.addEventListener("touchstart", function (ev) {
     /* 实现双击效果打开标签文本输入框 */
@@ -61,6 +60,7 @@ shoot.addEventListener("touchstart", function (ev) {
         this.count = 0;
     }, 200);
 
+    menuSelect.style.display=(menuShow=false)?"block":"none";//点击其他地方关闭菜单
     /* 实现缩放及移动标签前置工作 */
     ev = ev || event;
     this.dist = ev.touches[1] ? distance(ev.touches[0], ev.touches[1]) : 0;//保存文本缩放前两指距离
@@ -104,14 +104,10 @@ input.addEventListener("change", function (event) {
     }
 });
 
-
-startMedia();//*************
-
-
-// 点击camera按钮，从视频流中截取一帧图片并画在canvas中并下载
-// camera.addEventListener("click", function () {
-//     if(!videoMode){drawImage(video)};
-// });
+//点击camera按钮，从视频流中截取一帧图片并画在canvas中并下载
+camera.addEventListener("click", function () {
+    if(!videoMode){drawImage(video)};
+});
 camera.addEventListener("touchstart", (ev) => {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
@@ -123,10 +119,10 @@ camera.addEventListener("touchstart", (ev) => {
 });
 camera.addEventListener("touchend", () => {
     clearTimeout(this.timer);
-    if(!videoMode){
-        drawImage(video)
-    };
-    return false;
+    // if(!videoMode){
+    //     drawImage(video)
+    // };
+    // return false;
 });
 
 
@@ -161,7 +157,13 @@ document.addEventListener("visibilitychange", function () {
 
 });
 
-/* 阻止弹出菜单 */
+menu.addEventListener("click",()=>{
+ menuSelect.style.display=(menuShow=!menuShow)?"block":"none";
+});
+
+
+
+/* 阻止窗口弹出菜单 */
 document.addEventListener("contextmenu", (e) => {
     e.preventDefault();
 });
@@ -169,3 +171,13 @@ document.addEventListener("contextmenu", (e) => {
 saveImage.addEventListener("click", () => {
     drawImage.call(image, image);
 })
+/* 阻止菜单传递事件 */
+menuSelect.addEventListener("touchstart",function(ev){
+    ev.stopPropagation();
+});
+menuSelect.addEventListener("touchmove",function(ev){
+    ev.stopPropagation();
+});
+menuSelect.addEventListener("touchend",function(ev){
+    ev.stopPropagation();
+});
