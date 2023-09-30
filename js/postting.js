@@ -155,7 +155,7 @@ const videoRecordingDownload = () => {
 
         /* 创建视频录制,将canvas画面数据流赋值给视频录制组件 */
         const stream = canvas.captureStream();
-        this.mediaRecorder = new MediaRecorder(stream,{audioBitsPerSecond : 128000,videoBitsPerSecond:250000,mimeType : 'video/mp4'});//---------------------------videoBitsPerSecond调整视频清晰度-----------------------------------------------------------
+        this.mediaRecorder = new MediaRecorder(stream,{audioBitsPerSecond : 128000,videoBitsPerSecond:2500000,mimeType : 'video/webm'});//---------------------------videoBitsPerSecond调整视频清晰度-----------------------------------------------------------
         const data = [];
         this.mediaRecorder.ondataavailable=(ev)=>{
             if (ev.data && ev.data.size) {
@@ -163,10 +163,10 @@ const videoRecordingDownload = () => {
             }
         }
         this.mediaRecorder.onstop=()=>{
-            const dataUrl = URL.createObjectURL(new Blob(data, { type: 'video/mp4' }));
+            const dataUrl = URL.createObjectURL(new Blob(data, { type: 'video/webm' }));
             var link = document.createElement("a");
             link.href = dataUrl;
-            link.download = "myTest.mp4";//-----------------------------------------------需要随着楼号及时间改名---------------------------------------------------
+            link.download = "myTest.webm";//-----------------------------------------------需要随着楼号及时间改名---------------------------------------------------
             link.click();
         }
         this.mediaRecorder.start();
