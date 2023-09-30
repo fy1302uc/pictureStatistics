@@ -163,10 +163,10 @@ const videoRecordingDownload = () => {
             }
         }
         this.mediaRecorder.onstop=()=>{
-            const dataUrl = URL.createObjectURL(new Blob(data, { type: 'video/webm' }));
+            const dataUrl = URL.createObjectURL(new Blob(data, { type: 'video/mp4' }));
             var link = document.createElement("a");
             link.href = dataUrl;
-            link.download = "myTest.webm";//-----------------------------------------------需要随着楼号及时间改名---------------------------------------------------
+            link.download = "myTest.mp4";//-----------------------------------------------需要随着楼号及时间改名---------------------------------------------------
             link.click();
         }
         this.mediaRecorder.start();
