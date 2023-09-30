@@ -155,7 +155,7 @@ const videoRecordingDownload = () => {
 
         /* 创建视频录制,将canvas画面数据流赋值给视频录制组件 */
         const stream = canvas.captureStream();
-        this.mediaRecorder = new MediaRecorder(stream,{audioBitsPerSecond : 128000,videoBitsPerSecond:250000,mimeType : 'video/webm'});//---------------------------videoBitsPerSecond调整视频清晰度-----------------------------------------------------------
+        this.mediaRecorder = new MediaRecorder(stream,{audioBitsPerSecond : 128000,videoBitsPerSecond:250000,mimeType : 'video/mp4'});//---------------------------videoBitsPerSecond调整视频清晰度-----------------------------------------------------------
         const data = [];
         this.mediaRecorder.ondataavailable=(ev)=>{
             if (ev.data && ev.data.size) {
