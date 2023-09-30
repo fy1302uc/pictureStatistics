@@ -23,11 +23,11 @@ var width = 1000;//水印相机拾取分辨率7
 var height = 1000;
 var textColor = ['black', "white", "red", "green", "blue"];//标签设置文本长按颜色变换
 var floatingLabelFontSize = floatingLabel.clientHeight;//获取标签文本的像素值
-var sharp = 0.2;//设置下载图片清晰度
+var sharp = 0.4;//设置下载图片清晰度
 var videoMode = false;//设置红点是否显示及处于何种模式false为拍照模式
 var menuShow = false;//右上角菜单是否显示;
 // image.align="middle";
-startMedia();//*************
+
 //添加浮动的标签文本被长按事件(改变颜色用)
 floatingLabel.addEventListener("touchstart", function (event) {
     this.timer = setTimeout(() => {//被长按事件
@@ -109,8 +109,9 @@ camera.addEventListener("click", function () {
     if(!videoMode){drawImage(video)};
 });
 camera.addEventListener("touchstart", (ev) => {
+    if(videoMode) videoRecordingDownload();
     clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
+    this.timer = setTimeout(() => {//长按进入录制模式红点出现
         videoMode=!videoMode;
         point.style.display=videoMode?"block":"none";
         this.timer=0;
@@ -141,6 +142,7 @@ watermark.addEventListener("click", function () {
     }
 });
 
+startMedia();//*************
 // 在用户离开或隐藏这个页面时关闭视频采集,节省资源*************
 document.addEventListener("visibilitychange", function () {
 
