@@ -125,6 +125,19 @@ let distance = (p1, p2) => {//计算两触点距离
 }
 /* 执行录制视频并下载 */
 const videoRecordingDownload = () => {
+    const stopRecorder = () => {//停止录制函数
+        /* finishing为true执行视频保存视频 样式设置*/
+        clearInterval(this.timer2);
+        changer.style.borderRadius = "50%";
+        camera.style.padding = "2vw";
+        point.style.backgroundColor = "red";
+        this.finishing = false;//视频录制完毕
+
+        /* 保存录制的视频 */
+        this.mediaRecorder.stop();
+        cancelAnimationFrame(this.timer3);
+    }
+
     if (!this.finishing) {//
         /* finishing为false执行录制视频 样式设置*/
         changer.style.borderRadius = "0";
@@ -132,9 +145,20 @@ const videoRecordingDownload = () => {
         this.finishing = true;//正在录制视频中
         let pointColor = "transparent";
         point.style.backgroundColor = pointColor;
+        
+        /* 处理红点闪灭 */
+        clearInterval(this.timer2);
         this.timer2 = setInterval(() => {
             point.style.backgroundColor = pointColor = pointColor == "red" ? "transparent" : "red";
-        }, 1000);
+        }, 500);
+
+        /* 避免不小心开启并忘记关毕,记录器录制30分钟自动保存关闭 */
+        clearTimeout(this.timer3);
+        this.timer3 = setTimeout(() => {
+            if (this.mediaRecorder.state != "inactive") {
+                stopRecorder();
+            }
+        }, 1800000);
 
         /* 开始录制视频 */
         canvas.width = width;
@@ -149,20 +173,20 @@ const videoRecordingDownload = () => {
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             context.fillText(floatingLabel.innerHTML, floatingLabel.offsetLeft * (width / video.clientWidth), (floatingLabel.offsetTop + floatingLabelFontSize) * (width / video.clientWidth));
             context.restore();
-            this.timer3=requestAnimationFrame(update);
+            this.timer3 = requestAnimationFrame(update);
         }
         update();
 
         /* 创建视频录制,将canvas画面数据流赋值给视频录制组件 */
         const stream = canvas.captureStream();
-        this.mediaRecorder = new MediaRecorder(stream,{audioBitsPerSecond : 128000,videoBitsPerSecond:2500000,mimeType : 'video/webm'});//---------------------------videoBitsPerSecond调整视频清晰度-----------------------------------------------------------
+        this.mediaRecorder = new MediaRecorder(stream, { audioBitsPerSecond: 128000, videoBitsPerSecond: 2500000, mimeType: 'video/webm' });//---------------------------videoBitsPerSecond调整视频清晰度-----------------------------------------------------------
         const data = [];
-        this.mediaRecorder.ondataavailable=(ev)=>{
+        this.mediaRecorder.ondataavailable = (ev) => {
             if (ev.data && ev.data.size) {
                 data.push(ev.data);
             }
         }
-        this.mediaRecorder.onstop=()=>{
+        this.mediaRecorder.onstop = () => {
             const dataUrl = URL.createObjectURL(new Blob(data, { type: 'video/webm' }));
             var link = document.createElement("a");
             link.href = dataUrl;
@@ -171,16 +195,17 @@ const videoRecordingDownload = () => {
         }
         this.mediaRecorder.start();
     } else {
-        /* finishing为true执行视频保存视频 样式设置*/
-        clearInterval(this.timer2);
-        changer.style.borderRadius = "50%";
-        camera.style.padding = "2vw";
-        point.style.backgroundColor = "red";
-        this.finishing = false;//视频录制完毕
+        // /* finishing为true执行视频保存视频 样式设置*/
+        // clearInterval(this.timer2);
+        // changer.style.borderRadius = "50%";
+        // camera.style.padding = "2vw";
+        // point.style.backgroundColor = "red";
+        // this.finishing = false;//视频录制完毕
 
-        /* 保存录制的视频 */
-        this.mediaRecorder.stop();
-        cancelAnimationFrame(this.timer3);
+        // /* 保存录制的视频 */
+        // this.mediaRecorder.stop();
+        // cancelAnimationFrame(this.timer3);
+        stopRecorder();
     }
 
 
