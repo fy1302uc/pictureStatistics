@@ -106,10 +106,9 @@ input.addEventListener("change", function (event) {
 
 //点击camera按钮，从视频流中截取一帧图片并画在canvas中并下载
 camera.addEventListener("click", function () {
-    if(!videoMode){drawImage(video)};
+    videoMode?videoRecordingDownload():drawImage(video);
 });
 camera.addEventListener("touchstart", (ev) => {
-    if(videoMode) videoRecordingDownload();
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {//长按进入录制模式红点出现
         videoMode=!videoMode;
