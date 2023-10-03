@@ -188,7 +188,7 @@ for(let i=0;i<menuSelect.children.length;i++){
         menuSelect.style.display="none";
         switch(i){
             case 0:break;
-            case 1:window.location.replace("../setting.html");break;
+            case 1:window.location.replace("/setting.html");break;
             case 2:alert("大家好!这是我利用业余时间编写的网页程序,希望大家能喜欢,如有意见建议联系微信:fy1302uc");break;
             case 3:break;
         }
