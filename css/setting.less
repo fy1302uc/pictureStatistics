@@ -1,46 +1,159 @@
-*{
-    padding:0;
-    margin:0;
+* {
+    padding: 0;
+    margin: 0;
     list-style: none;
+    user-select: none;
 }
-html,body{
-    height:100%;
+
+html,
+body {
+    height: 100%;
 }
-body{
-    background-color:rgb(10,10,10);
-    color:gray;
+
+body {
+    overflow: hidden;
+    background-color: rgb(10, 10, 10);
+    color: gray;
+
 }
-header{
-    overflow:hidden;
-    position:relative;
-    height:10vw;
-    >span{
-        font-size:6vw;
+
+header {
+    overflow: hidden;
+    position: relative;
+    height: 10vw;
+    padding: 0 2vw;
+
+    >span {
+        font-size: 6vw;
     }
-    >h2{
-        position:absolute;
-        line-height:1;
+
+    >h2 {
+        position: absolute;
+        line-height: 1;
         top: 50%;
-        left:50%;
-        transform:translate(-50%,-50%);
-        font-size:5vw;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 5vw;
     }
 }
 
-ul{
-    background-color:rgb(30,30,30);
-    >li{
-        display:flex;
-        justify-content: space-between;
-        align-items:center;
-        border-top:solid 1px gray;
-        font-size:4vw;
-        color:gray;
-        >span{
-            font-size:6vw;
+ul {
+    background-color: rgb(30, 30, 30);
+    border-bottom: solid 1px gray;
+
+    >li {
+        display: flex;
+        align-items: center;
+        border-top: solid 1px gray;
+        font-size: 4vw;
+        color: gray;
+        padding: 2vw;
+
+        >* {
+            //border:solid 1px red;
+            line-height: 1;
         }
-        &:last-child{
-            border-bottom:solid 1px gray;
+
+        >div {
+            flex: 1;
+            text-align: right;
+            margin: 0 1vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        >span {
+            font-size: 6vw;
+            margin-top: -1vw;
+        }
+    }
+
+    >div {
+        padding: 2vw;
+        display: none;
+        font-size: 4vw;
+
+        /* 进度条样式 */
+        .progress {
+            flex: 1;
+            border-radius: 2vw;
+            padding: 0 1vw;
+            overflow-x: hidden;
+            >p {
+                text-align: center;
+                font-size: 2vw;
+            }
+            >.lineWrap {
+                height: 2vw;
+                border-radius: 2vw;
+                background-color: white;
+                overflow: hidden;
+                >div {
+                    border-radius: 2vw;
+                    background-color: gray;
+                    height: 2vw;
+                    width: 60%;
+                }
+            }
+        }
+
+        input {
+            font-size: 4vw;
+
+            &:not([type="text"]) {
+                height: 4vw;
+                width: 4vw;
+                vertical-align: middle;
+            }
+        }
+
+        &.setDate {
+            >div {
+                display: flex;
+
+                &:first-child {
+                    align-items: center;
+
+                    >input[type="text"] {
+                        flex: 1;
+                        height: 4vw;
+                    }
+
+                }
+
+                &:last-child {
+                    margin-top: 3vw;
+                    justify-content: space-evenly;
+
+                }
+            }
+        }
+
+        &.sharp {
+            >div {
+                display: flex;
+                align-items: center;
+            }
+
+            >.showVideoSize {
+
+                >label {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    margin-left: 1vw;
+
+                    >input {
+                        flex: 1;
+                    }
+                }
+            }
+
+            >.outImageSharp {
+                margin-top: 2vw;
+            }
+
         }
     }
 }

@@ -10,15 +10,57 @@
 <body>
     <header><span><</span><h2>设置</h2></header>
     <ul>
-        <li><h3>主目录</h3><span>></span></li>
-        <li><h3>尾部文本</h3><span>></span></li>
-        <li><h3>保存尺寸</h3><span>></span></li>
-        <li><h3>保留原图</h3><span>></span></li>
-        <li><h3>添加分类</h3><span>></span></li>
-        <li><h3>最大值</h3><span>></span></li>
-        <li><h3>标记设置</h3><span>></span></li>
-        <li><h3>自动添加文本</h3><span>></span></li>
+        
+        <li><h3>主目录</h3><div>网页版不支持</div><span>></span></li>
+        <div></div>
+        <li><h3>尾部文本</h3><div>2</div><span>></span></li>
+        <div class="setDate">
+            <div><label><input type="checkbox" checked>添加日期</label><input type="text" placeholder="请输入自动添加的备注文本"></div>
+            <div>
+                <label><input type="radio" name="date" value="origin" checked>原日期</label>
+                <label><input type="radio" name="date" value="current">今日期</label>
+                <label><input type="checkbox" value="time">添加时间</label>
+            </div>
+        </div>
+        <li><h3>保存尺寸</h3><div>3</div><span>></span></li>
+        <div class="sharp">
+            <div class="showVideoSize">
+                <cite>视频采集大小:</cite>
+                <label>宽度:<input type="number"/></label> 
+                <label>高度:<input type="number"/></label>
+            </div>
+            <div class="outImageSharp">
+                <cite>图片输出清晰度:</cite>
+                <!-- <meter min="0" max="1.0" low="0.5" value="0.5"></meter> -->
+                <div class="progress">
+                    <p>60%</p>
+                    <div class="lineWrap"><div></div></div>
+                    <p> &nbsp;</p>
+                </div>
+            </div>
+            <div class="outVideoSharp">
+                <cite>视频输出清晰度:</cite>
+                <!-- <meter min="0" max="1.0" low="0.5" value="0.5"></meter> -->
+                <div class="progress">
+                    <p>30Mbps</p>
+                    <div class="lineWrap"><div></div></div>
+                    <p> &nbsp;</p>
+                </div>
+            </div>
+        
+        </div>
+        <li><h3>保留原图</h3><div>4</div><span>></span></li>
+        <div></div>
+        <li><h3>添加分类</h3><div>5</div><span>></span></li>
+        <div></div>
+        <li><h3>最大值</h3><div>6</div><span>></span></li>
+        <div></div>
+        <li><h3>标记设置</h3><div>7</div><span>></span></li>
+        <div></div>
+        <li><h3>自动添加文本</h3><div>8</div><span>></span></li>
+        <div></div>
     </ul>
     <script src="./js/setting.js"></script>
+    
 </body>
 </html>
