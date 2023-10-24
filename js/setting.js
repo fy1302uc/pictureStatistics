@@ -41,7 +41,8 @@ showDate.addEventListener("input", function () {
 
 videoSizeInput.forEach((el, index) => {
     el.addEventListener("input", function (ev) {
-
+        ev.target.value=="e"|"-"?this.value="":this.value=ev.target.value;
+        //console.log(ev.target.defaultValue);
     })
 });
 

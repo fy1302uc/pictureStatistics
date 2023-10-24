@@ -123,3 +123,6 @@ ul > div.sharp > .showVideoSize > label > input {
 ul > div.sharp > .outImageSharp {
   margin-top: 2vw;
 }
+ul > div.addSort > * {
+  font-size: 4vw;
+}
