@@ -4,7 +4,8 @@ const li = document.querySelectorAll("ul>li");
 const details = document.querySelectorAll("ul>div");
 const showDate = document.querySelector('ul>.setDate > div:first-child > label>input[type="checkbox"]');
 const selectDate = document.querySelector('ul>.setDate > div:last-child');
-const videoSizeInput = document.querySelectorAll('ul > div.sharp > .showVideoSize > label > input');
+const videoSizeInput = document.querySelectorAll('ul label > input[type="number"]');
+const lineSizeInput = document.querySelector("ul > div.lineColorSize>label>input[type='number']");
 const outImageProgress = document.querySelector('ul > div.sharp > .outImageSharp > .progress');
 const outVideoProgress = document.querySelector('ul > div.sharp > .outVideoSharp > .progress');
 /* const lineWrap = document.querySelector('ul > div.sharp > .outImageSharp > .progress > .lineWrap');
@@ -45,6 +46,13 @@ videoSizeInput.forEach((el, index) => {
         //console.log(ev.target.defaultValue);
     })
 });
+
+/* 设置标记线条尺寸输入框最大值<100>0 */
+lineSizeInput.addEventListener("input",function(ev){
+    if(ev.target.value>100 || ev.target.value<0){
+        ev.target.value="";
+    }
+})
 
 /* 进度条改变事件*/
 const addProgressEvent=(progressWrap,str="image")=>{//测试

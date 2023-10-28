@@ -90,7 +90,7 @@ ul > div input {
 }
 ul > div input:not([type="text"]) {
   height: 4vw;
-  width: 4vw;
+  width: 10vw;
   vertical-align: middle;
 }
 ul > div.setDate > div {
@@ -125,4 +125,7 @@ ul > div.sharp > .outImageSharp {
 }
 ul > div.addSort > * {
   font-size: 4vw;
+}
+ul > div.addBuilding {
+  font-size: 3.5vw;
 }
