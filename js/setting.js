@@ -12,6 +12,19 @@ const outVideoProgress = document.querySelector('ul > div.sharp > .outVideoSharp
 const lineInner = document.querySelector('ul > div.sharp > .outImageSharp > .progress > .lineWrap>div');
 const progressLabel = document.querySelector('ul > div.sharp > .outImageSharp > .progress > p');
  */
+//localStorage.setItem("camera",JSON.stringify({name:'liubo',age:23,gender:'male'}));
+//localStorage.clear();
+
+
+if (!localStorage.getItem("camera")) {
+    const cameraSystem = {
+
+    }
+    //console.log(camera);
+}
+//let camera = JSON.parse(localStorage.getItem("camera"));
+
+
 /* 点击左上角返回按钮删除本页跳转主页面 */
 back.addEventListener("click", function () {
     window.location.replace("./index.html");
@@ -23,14 +36,25 @@ rightSpan.forEach((el, index) => {
         this.isShowDiv = this.isShowDiv ? false : true;
         details[index].style.display = this.isShowDiv ? "block" : "none";
         rightSpan[index].innerText = this.isShowDiv ? "∨" : ">";
-        // switch(index){
-        //     case 0:break;
-        //     case 1:break;
-        //     case 2:break;
-        //     case 3:break;
-        //     case 4:break;
-        //     case 5:break;
-        // }
+        /* 设置输入界面展示到列表中 */
+        if (this.isShowDiv) {
+            this.menuText = "";
+        } else {
+            switch (index) {
+                case 0: this.menuText = details[index].querySelector("label>input").value; break;//列表第一项
+                case 1: details[index].querySelectorAll("label>input").forEach((el,index,arr)=>{//第二项
+                    this.menuText+=arr[0].checked && el.checked && index?"["+el.parentNode.innerText+"]":"";//添加备注文本并判断添加日期是否选中,若选中将尾部日期信息添加到列表中
+                });
+                this.menuText=details[index].querySelector("label>input[type='text']").value+this.menuText;//最后将备注文本添加到列表文本前面;
+                break;
+                case 2: break;
+                case 3: this.menuText="网页版不支持";break;
+                case 4: break;
+                case 5: break;
+            }
+        }
+
+        li[index].children[1].innerText = this.menuText;//将列表选项内容添加到列表项中
     })
 });
 
@@ -42,23 +66,23 @@ showDate.addEventListener("input", function () {
 
 videoSizeInput.forEach((el, index) => {
     el.addEventListener("input", function (ev) {
-        ev.target.value=="e"|"-"?this.value="":this.value=ev.target.value;
+        ev.target.value == "e" | "-" ? this.value = "" : this.value = ev.target.value;
         //console.log(ev.target.defaultValue);
     })
 });
 
 /* 设置标记线条尺寸输入框最大值<100>0 */
-lineSizeInput.addEventListener("input",function(ev){
-    if(ev.target.value>100 || ev.target.value<0){
-        ev.target.value="";
+lineSizeInput.addEventListener("input", function (ev) {
+    if (ev.target.value > 100 || ev.target.value < 0) {
+        ev.target.value = "";
     }
 })
 
 /* 进度条改变事件*/
-const addProgressEvent=(progressWrap,str="image")=>{//测试
-    const progressLabel=progressWrap.children[0];
-    const lineWrap=progressWrap.children[1];
-    const lineInner=lineWrap.children[0];
+const addProgressEvent = (progressWrap, str = "image") => {//测试
+    const progressLabel = progressWrap.children[0];
+    const lineWrap = progressWrap.children[1];
+    const lineInner = lineWrap.children[0];
     lineWrap.addEventListener("touchstart", function (ev) {
         lineInner.style.width = ev.touches[0].clientX - this.offsetLeft + "px";
         this.value = (ev.touches[0].clientX - this.offsetLeft) / this.offsetWidth;
@@ -68,20 +92,20 @@ const addProgressEvent=(progressWrap,str="image")=>{//测试
         lineInner.style.width = ev.touches[0].clientX - this.offsetLeft + "px";
         this.value = (ev.touches[0].clientX - this.offsetLeft) / this.offsetWidth;
         //progressLabel.innerText=Math.trunc(this.value*1000)/10+"%";
-        progressLabel.innerText=str=="image"?Math.trunc(this.value*1000)/10+"%":Math.trunc(this.value*1000)/10/2+"Mbps";
+        progressLabel.innerText = str == "image" ? Math.trunc(this.value * 1000) / 10 + "%" : Math.trunc(this.value * 1000) / 10 / 2 + "Mbps";
     });
     lineWrap.addEventListener("touchend", function (ev) {
         if (this.value < 0) {
             this.value = 0
-        }else if(this.value>1){
-            this.value=1;
+        } else if (this.value > 1) {
+            this.value = 1;
         };
-        progressLabel.innerText=str=="image"?Math.trunc(this.value*1000)/10+"%":Math.trunc(this.value*1000)/10/2+"Mbps";
+        progressLabel.innerText = str == "image" ? Math.trunc(this.value * 1000) / 10 + "%" : Math.trunc(this.value * 1000) / 10 / 2 + "Mbps";
     });
 }
 
 addProgressEvent(outImageProgress);
-addProgressEvent(outVideoProgress,"video");
+addProgressEvent(outVideoProgress, "video");
 
 /* lineWrap.addEventListener("touchstart", function (ev) {
 
