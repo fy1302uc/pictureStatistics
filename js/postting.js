@@ -212,5 +212,54 @@ const videoRecordingDownload = () => {
 
 }
 
+/*setting 提取折叠展开设置 */
+function setFolding(index){
+    /* 设置输入界面展示到列表中 */
+    this.menuText = "";
+    if (this.isShowDiv) {
+        this.menuText = "";
+    } else {
+        switch (index) {
+            case 0: this.menuText = details[index].querySelector("label>input").value; break;//列表第一项
+            case 1:
+                details[index].querySelectorAll("label>input").forEach((el, index, arr) => {//第二项
+                    this.menuText += arr[0].checked && el.checked && index ? "[" + el.parentNode.innerText + "]" : "";//添加备注文本并判断添加日期是否选中,若选中将尾部日期信息添加到列表中
+                });
+                this.menuText = details[index].querySelector("label>input[type='text']").value + this.menuText;//最后将备注文本添加到列表文本前面;
+                break;
+            case 2:
+                details[index].querySelectorAll(".showVideoSize>label>input").forEach((el, index, arr) => {//将分辨率添加到列表项中
+                    this.menuText += index == 0 ? "[" + el.value + "×" : el.value + "]";
+                });
+                this.menuText += "[" + details[index].querySelector(".outImageSharp>.progress>p").innerText + "]";//添加图片清晰度
+                this.menuText += "[" + details[index].querySelector(".outVideoSharp>.progress>p").innerText + "]";//添加视频流分辨率
+                break;
+            case 3: this.menuText = "网页版不支持"; break;
+            case 4:
+                let v = details[index].querySelector("select").options;//获取列表框中的列表项
+                for (o of v) {
+                    this.menuText += o.index < v.length - 1 ? o.innerText + "," : o.innerText;//将列表项的文本提取
+                }
+                this.menuText = "[" + this.menuText + "]";
+                break;
+            case 5:
+                details[index].querySelectorAll("label>input[type='number']").forEach((el, index, arr) => {
+                    this.menuText += el.value + " ";
+                });
+                break;
+            case 6:
+                this.menuText = `<input type='color' disabled value=${details[index].querySelector("label>input[type='color']").value}> `;
+                this.menuText += details[index].querySelector("label>input[type='number']").value + "vw";
+                break;
+            case 7: details[index].querySelectorAll("label>input[type='radio']").forEach((el, index, arr) => {
+                this.menuText += el.checked ? el.parentNode.innerText : "";
+            });
+                break;
 
+        }
+    }
+
+    li[index].children[1].innerHTML = this.menuText;//将列表选项内容添加到列表项中
+
+}
 
