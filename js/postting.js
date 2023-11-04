@@ -1,36 +1,37 @@
 /* 若不存在设置默认参数 */
+localStorage.clear();
 if (!localStorage.getItem("cameraParams")) {
     const cameraSystem = {
         project: "XX小区",
         message: {
-            WhetherDate:true,//是否显示日期时间
+            WhetherDate: true,//是否显示日期时间
             addDate: true,//true为原日期，false为今日期
             addTime: false,//添加时间
-            memo:""//备注文本
+            memo: ""//备注文本
         },
-        storageSize:{
-            videoWidth:1000,//视频像素宽度
-            videoHeight:1000,//视频像素高度
-            imageQuality:0.9,//图片输出清晰度
-            videoQuality:250000//视频输出比特/秒
+        storageSize: {
+            videoWidth: 1000,//视频像素宽度
+            videoHeight: 1000,//视频像素高度
+            imageQuality: 0.9,//图片输出清晰度
+            videoQuality: 20000000//视频输出比特/秒
         },
-        inspectionTable:["装修前","装修中","装修后"],//图片分类
-        building:{
-            total:7,//总楼数
-            unit:5,//单元数
-            perFloor:5,//层户数
-            floors:30//层高
+        inspectionTable: ["装修前", "装修中", "装修后"],//图片分类
+        building: {
+            total: 7,//总楼数
+            unit: 5,//单元数
+            perFloor: 5,//层户数
+            floors: 30//层高
         },
-        flagSetting:{
-            color:"#000",//标记文本颜色
-            width:"20vw"//标记文本宽度
+        flagSetting: {
+            color: "#000000",//标记文本颜色
+            width: "20vw"//标记文本宽度
         },
-        autoText:true//是否自动添加文本
+        autoText: true//是否自动添加文本
     }
-    localStorage.setItem("cameraParams",JSON.stringify(cameraSystem));
+    localStorage.setItem("cameraParams", JSON.stringify(cameraSystem));
     //console.log(camera);
 }
-
+let cameraParams = JSON.parse(localStorage.getItem("cameraParams"));//获取本地相机参数
 // 获取媒体方法（旧的浏览器可能需要前缀）
 const getOldStream = () => {
     navigator.getMedia = (navigator.getUserMedia ||
@@ -251,39 +252,46 @@ function loadParameter(cameraParams) {
         switch (index) {
             case 0: el.checked = cameraParams.message.WhetherDate; break;
             case 1: el.value = cameraParams.message.memo; break;
-            case 2:el.checked = cameraParams.message.addDate;break;
-            case 3:el.checked = !cameraParams.message.addDate;break;
-            case 4:el.checked = cameraParams.message.addTime;break;
-               // el.querySelector("label>input[value='time']").checked = cameraParams.message.addTime;
-                /* el.querySelectorAll("label>input").forEach((el, index) => {
-                    if (index == 1) {
-                        el.checked = cameraParams.message.addDate;
-                    } else if (index == 2) {
-                        el.checked = cameraParams.message.addTime
-                    }
-                }) */
+            case 2: el.checked = cameraParams.message.addDate; break;
+            case 3: el.checked = !cameraParams.message.addDate; break;
+            case 4: el.checked = cameraParams.message.addTime; break;
+            // el.querySelector("label>input[value='time']").checked = cameraParams.message.addTime;
+            /* el.querySelectorAll("label>input").forEach((el, index) => {
+                if (index == 1) {
+                    el.checked = cameraParams.message.addDate;
+                } else if (index == 2) {
+                    el.checked = cameraParams.message.addTime
+                }
+            }) */
         }
     });
-    details[2].querySelector(".showVideoSize>label>input").value=cameraParams.storageSize.videoWidth;
-    details[2].querySelector(".showVideoSize>label:last-child>input").value=cameraParams.storageSize.videoHeight;
+    details[2].querySelector(".showVideoSize>label>input").value = cameraParams.storageSize.videoWidth;
+    details[2].querySelector(".showVideoSize>label:last-child>input").value = cameraParams.storageSize.videoHeight;
 
-    details[4].querySelector("select").innerHTML="";
-    cameraParams.inspectionTable.forEach((el,index)=>{
-        details[4].querySelector("select").innerHTML+=`<option value='${el}'>${el}</option>`;
+    details[2].querySelector(".outImageSharp>.progress>p").innerText = cameraParams.storageSize.imageQuality * 100 + "%";
+    details[2].querySelector(".outImageSharp>.progress>.lineWrap>div").style.width = details[2].querySelector(".outImageSharp>.progress>.lineWrap").offsetWidth * cameraParams.storageSize.imageQuality + "px";
+    details[2].querySelector(".outVideoSharp>.progress>p").innerText = cameraParams.storageSize.videoQuality / 1000000 + "Mbps";
+    details[2].querySelector(".outVideoSharp>.progress>.lineWrap>div").style.width = details[2].querySelector(".outVideoSharp>.progress>.lineWrap").offsetWidth * (cameraParams.storageSize.videoQuality / 50000000) + "px";
+
+    details[4].querySelector("select").innerHTML = "";
+    cameraParams.inspectionTable.forEach((el, index) => {
+        details[4].querySelector("select").innerHTML += `<option value='${el}'>${el}</option>`;
     });
     details[5].querySelectorAll("label>input[type='number']").forEach((el, index, arr) => {
-        el.value=Object.values(cameraParams.building)[index];
+        el.value = Object.values(cameraParams.building)[index];
     });
-    details[6].querySelector("label>input[type='color']").value=cameraParams.flagSetting.color;
-    details[6].querySelector("label>input[type='number']").value=parseInt(cameraParams.flagSetting.width);
-    details[7].querySelector("label>input[type='radio']").checked=cameraParams.autoText;
+    details[6].querySelector("label>input[type='color']").value = cameraParams.flagSetting.color;
+    details[6].querySelector("label>input[type='number']").value = parseInt(cameraParams.flagSetting.width);
+    details[7].querySelector("label>input[type='radio']").checked = cameraParams.autoText;
 }
+
 /*setting 提取折叠展开设置 */
 function setFolding(index) {
     /* 设置输入界面展示到列表中 */
     this.menuText = "";
     if (this.isShowDiv) {
         this.menuText = "";
+        //loadParameter(cameraParams);
     } else {
         switch (index) {
             case 0: this.menuText = details[index].querySelector("label>input").value; break;//列表第一项
@@ -317,9 +325,10 @@ function setFolding(index) {
                 this.menuText = `<input type='color' disabled value=${details[index].querySelector("label>input[type='color']").value}> `;
                 this.menuText += details[index].querySelector("label>input[type='number']").value + "vw";
                 break;
-            case 7: details[index].querySelectorAll("label>input[type='radio']").forEach((el, index, arr) => {
-                this.menuText += el.checked ? el.parentNode.innerText : "";
-            });
+            case 7:
+                details[index].querySelectorAll("label>input[type='radio']").forEach((el, index, arr) => {
+                    this.menuText += el.checked ? el.parentNode.innerText : "";
+                });
                 break;
 
         }

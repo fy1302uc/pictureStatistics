@@ -15,8 +15,8 @@ const progressLabel = document.querySelector('ul > div.sharp > .outImageSharp > 
 //localStorage.setItem("camera", JSON.stringify({ name: 'liubo', age: 23, gender: 'male' }));
 
 
-let cameraParams = JSON.parse(localStorage.getItem("cameraParams"));
-loadParameter(cameraParams);
+
+loadParameter(cameraParams);//加载相机本地参数到组件
 //console.log(cameraParams);
 /* 点击左上角返回按钮删除本页跳转主页面 */
 back.addEventListener("click", function () {

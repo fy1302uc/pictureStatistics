@@ -12,6 +12,8 @@ body {
   overflow: hidden;
   background-color: #0a0a0a;
   color: gray;
+  display: flex;
+  flex-direction: column;
 }
 header {
   overflow: hidden;
@@ -29,6 +31,11 @@ header > h2 {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 5vw;
+}
+.section {
+  flex: 1;
+  border: solid green 1px;
+  overflow: auto;
 }
 ul {
   background-color: #1e1e1e;
