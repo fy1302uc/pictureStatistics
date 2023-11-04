@@ -12,19 +12,12 @@ const outVideoProgress = document.querySelector('ul > div.sharp > .outVideoSharp
 const lineInner = document.querySelector('ul > div.sharp > .outImageSharp > .progress > .lineWrap>div');
 const progressLabel = document.querySelector('ul > div.sharp > .outImageSharp > .progress > p');
  */
-//localStorage.setItem("camera",JSON.stringify({name:'liubo',age:23,gender:'male'}));
-//localStorage.clear();
+//localStorage.setItem("camera", JSON.stringify({ name: 'liubo', age: 23, gender: 'male' }));
 
 
-if (!localStorage.getItem("camera")) {
-    const cameraSystem = {
-
-    }
-    //console.log(camera);
-}
-//let camera = JSON.parse(localStorage.getItem("camera"));
-
-
+let cameraParams = JSON.parse(localStorage.getItem("cameraParams"));
+loadParameter(cameraParams);
+//console.log(cameraParams);
 /* 点击左上角返回按钮删除本页跳转主页面 */
 back.addEventListener("click", function () {
     window.location.replace("./index.html");
@@ -39,7 +32,7 @@ rightSpan.forEach((el, index) => {
         details[index].style.display = this.isShowDiv ? "block" : "none";
         rightSpan[index].innerText = this.isShowDiv ? "∨" : ">";
         /* 设置输入界面展示到列表中 */
-        setFolding.call(this,index);
+        setFolding.call(this, index);
     })
 });
 
@@ -91,7 +84,7 @@ const addProgressEvent = (progressWrap, str = "image") => {//测试
 addProgressEvent(outImageProgress);
 addProgressEvent(outVideoProgress, "video");
 rightSpan.forEach((el, index) => {//进入页面自动加载设置数据到列表
-    setFolding.call(el,index);
+    setFolding.call(el, index);
 });
 
 /* lineWrap.addEventListener("touchstart", function (ev) {
