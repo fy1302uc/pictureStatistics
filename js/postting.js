@@ -1,5 +1,4 @@
 /* 若不存在设置默认参数 */
-localStorage.clear();
 if (!localStorage.getItem("cameraParams")) {
     const cameraSystem = {
         project: "XX小区",
