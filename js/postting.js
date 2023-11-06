@@ -1,5 +1,5 @@
 /* 若不存在设置默认参数 */
-localStorage.clear();
+//localStorage.clear();
 if (!localStorage.getItem("cameraParams")) {
     const cameraSystem = {
         project: "XX小区",
@@ -294,11 +294,12 @@ function loadParameter(cameraParams) {
 }
 /*setting 将设置保存到本地 */
 function saveSetting() {
-    document.querySelectorAll("ul>div label>input[type='number'],ul>div label>input[type='text']").forEach((el, index) => {
+    document.querySelectorAll("ul>div label>input").forEach((el, index) => {
         if(el.name in cameraParams){
-            cameraParams[el.name]=el.value;
+            cameraParams[el.name]=el.type=="text"?el.value:el.value=="fullAuto"?el.checked:!el.checked;
         }else if(el.name in cameraParams.message){
-            cameraParams.message[el.name]=el.value;
+            el.name=="memo"?cameraParams.message[el.name]=el.value: cameraParams.message[el.name]=el.value=="current"?!el.checked:el.checked;
+           // cameraParams.message[el.name]=el.value;
         }else if(el.name in cameraParams.storageSize){
             cameraParams.storageSize[el.name]=el.value;
         }else if(el.name in cameraParams.building){
@@ -306,8 +307,17 @@ function saveSetting() {
         }else if(el.name in cameraParams.flagSetting){
             cameraParams.flagSetting[el.name]=el.value;
         }
-    })
-    console.log(cameraParams.flagSetting);
+    });
+    /* 添加列表选项 */
+    let v = document.querySelector("ul>.addSort>select").options;//获取列表框中的列表项
+    let arr =[];
+    for(o of v){
+        arr.push(o.innerText);
+    }
+    cameraParams.inspectionTable=arr;
+   
+   // console.log(cameraParams);
+    //localStorage.setItem("cameraParams",JSON.stringify(cameraParams));
 }
 
 /*setting 提取折叠展开设置 */

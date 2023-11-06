@@ -28,7 +28,7 @@
                 <div>2</div><span>></span>
             </li>
             <div class="setDate">
-                <div><label><input type="checkbox" checked>添加日期</label><label><input type="text" name="memo" placeholder="请输入自动添加的备注文本"></label></div>
+                <div><label><input type="checkbox" name="WhetherDate" checked>添加日期</label><label><input type="text" name="memo" placeholder="请输入自动添加的备注文本"></label></div>
                 <div>
                     <label><input type="radio" name="addDate" value="origin" checked>原日期</label>
                     <label><input type="radio" name="addDate" value="current">今日期</label>
@@ -85,8 +85,8 @@
                     <option value="问题反馈">问题反馈</option>
                     <option value="水电表">水电表</option>
                 </select>
-                <button>添加项目</button>
-                <button>删除项目</button>
+                <button class="addList">添加项目</button>
+                <button class="delList">删除项目</button>
             </div>
             <li>
                 <h3>最大值</h3>
@@ -103,7 +103,7 @@
                 <div></div><span>></span>
             </li>
             <div class="lineColorSize">
-                <label for="">颜色:<input type="color"></label>
+                <label for="">颜色:<input type="color" name="color"></label>
 
                 <!-- <label for="">颜色:<select name="" id="">
                 <option value="red">红色</option>
@@ -120,8 +120,8 @@
                 <div>8</div><span>></span>
             </li>
             <div>
-                <label for=""><input type="radio" name="addText" value="fullAuto" checked>全自动</label>
-                <label for=""><input type="radio" name="addText" value="manual">手动</label>
+                <label for=""><input type="radio" name="autoText" value="fullAuto" checked>全自动</label>
+                <label for=""><input type="radio" name="autoText" value="manual">手动</label>
             </div>
         </ul>
     </div>

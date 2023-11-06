@@ -11,13 +11,24 @@ const videoSizeInput = document.querySelectorAll('ul label > input[type="number"
 const lineSizeInput = document.querySelector("ul > div.lineColorSize>label>input[type='number']");
 const outImageProgress = document.querySelector('ul > div.sharp > .outImageSharp > .progress');
 const outVideoProgress = document.querySelector('ul > div.sharp > .outVideoSharp > .progress');
+const addList = document.querySelector("ul>.addSort>.addList");
+const delList = document.querySelector("ul>.addSort>.delList");
+const selectEl = document.querySelector("ul>.addSort>select");
 /* const lineWrap = document.querySelector('ul > div.sharp > .outImageSharp > .progress > .lineWrap');
 const lineInner = document.querySelector('ul > div.sharp > .outImageSharp > .progress > .lineWrap>div');
 const progressLabel = document.querySelector('ul > div.sharp > .outImageSharp > .progress > p');
  */
 //localStorage.setItem("camera", JSON.stringify({ name: 'liubo', age: 23, gender: 'male' }));
 
-
+/* 添加列表项 */
+addList.addEventListener("click",function(){
+    let newList = window.prompt("请输入新列表项:");
+    if(newList&&newList.trim()!="")selectEl.innerText.includes(newList+"\n")?alert("有重复项"):selectEl.innerHTML+=`<option value=${newList.trim()}>${newList.trim()}</option>`;
+});
+/* 删除指定列表项 */
+delList.addEventListener("click",function(){
+    selectEl.remove(selectEl.selectedIndex);
+});
 
 loadParameter(cameraParams);//加载相机本地参数到组件
 
