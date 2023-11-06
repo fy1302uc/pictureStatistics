@@ -22,18 +22,17 @@
                 <h3>主目录</h3>
                 <div>XX小区</div><span>></span>
             </li>
-            <div><label for="">小区名:<input type="text" value="XX小区"></label></div>
+            <div><label for="">小区名:<input type="text" name="project" value="XX小区"></label></div>
             <li>
                 <h3>尾部文本</h3>
                 <div>2</div><span>></span>
             </li>
             <div class="setDate">
-                <div><label><input type="checkbox" checked>添加日期</label><label><input type="text"
-                            placeholder="请输入自动添加的备注文本"></label></div>
+                <div><label><input type="checkbox" checked>添加日期</label><label><input type="text" name="memo" placeholder="请输入自动添加的备注文本"></label></div>
                 <div>
-                    <label><input type="radio" name="date" value="origin" checked>原日期</label>
-                    <label><input type="radio" name="date" value="current">今日期</label>
-                    <label><input type="checkbox" value="time">添加时间</label>
+                    <label><input type="radio" name="addDate" value="origin" checked>原日期</label>
+                    <label><input type="radio" name="addDate" value="current">今日期</label>
+                    <label><input type="checkbox" name="addTime" value="time">添加时间</label>
                 </div>
             </div>
             <li>
@@ -43,8 +42,8 @@
             <div class="sharp">
                 <div class="showVideoSize">
                     <cite>视频采集大小:</cite>
-                    <label>宽度:<input type="number" /></label>
-                    <label>高度:<input type="number" /></label>
+                    <label>宽度:<input type="number" name="videoWidth"/></label>
+                    <label>高度:<input type="number" name="videoHeight"/></label>
                 </div>
                 <div class="outImageSharp">
                     <cite>图片输出清晰度:</cite>
@@ -94,10 +93,10 @@
                 <div>6</div><span>></span>
             </li>
             <div class="addBuilding">
-                <label for="">总楼数:<input type="number"></label>
-                <label for="">单元数:<input type="number"></label>
-                <label for="">层户数:<input type="number"></label>
-                <label for="">总层数:<input type="number"></label>
+                <label for="">总楼数:<input type="number" name="total"></label>
+                <label for="">单元数:<input type="number" name="unit"></label>
+                <label for="">层户数:<input type="number" name="perFloor"></label>
+                <label for="">总层数:<input type="number" name="floors"></label>
             </div>
             <li>
                 <h3>标记设置</h3>
@@ -114,7 +113,7 @@
                 <option value="white">白色</option>
                 <option value="black">黑色</option>
             </select></label> -->
-                <label for="">尺寸:<input type="number">vw</label>
+                <label for="">尺寸:<input type="number" name="width">vw</label>
             </div>
             <li>
                 <h3>自动添加文本</h3>
@@ -126,7 +125,7 @@
             </div>
         </ul>
     </div>
-    <div class="btn"><button>保存</button><button>关于</button><button>帮助</button></div>
+    <div class="btn"><button>保存设置</button><button>关于帮助</button><button>退出设置</button></div>
     <script src="./js/postting.js"></script>
     <script src="./js/setting.js"></script>
 

@@ -137,3 +137,11 @@ ul > div.addSort > * {
 ul > div.addBuilding {
   font-size: 3.5vw;
 }
+.btn {
+  display: flex;
+  justify-content: space-evenly;
+}
+.btn > button {
+  font-size: 5vw;
+  padding: 0 2vw;
+}

@@ -24,14 +24,17 @@ if (!localStorage.getItem("cameraParams")) {
         },
         flagSetting: {
             color: "#000000",//标记文本颜色
-            width: "20vw"//标记文本宽度
+            width: 20//标记文本宽度vw
         },
         autoText: true//是否自动添加文本
     }
     localStorage.setItem("cameraParams", JSON.stringify(cameraSystem));
     //console.log(camera);
 }
+
+/* 每次加载重新调用本地参数 */
 let cameraParams = JSON.parse(localStorage.getItem("cameraParams"));//获取本地相机参数
+console.log(cameraParams);
 // 获取媒体方法（旧的浏览器可能需要前缀）
 const getOldStream = () => {
     navigator.getMedia = (navigator.getUserMedia ||
@@ -113,9 +116,12 @@ function success(stream) {
     video.srcObject = stream;
     //video.play();
 }
+/* 视频流错误处理 */
 function error(error) {
     console.log(`访问用户媒体设备失败${error.name}, ${error.message}`);
 }
+
+/* 视频流兼容处理 */
 function getUserMedia(constraints, success, error) {
     if (navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia(constraints)//调用后置摄像头'video':{ 'facingMode': "environment" }，前置摄像头使用'video':{ 'facingMode': "user" }
@@ -132,6 +138,7 @@ function getUserMedia(constraints, success, error) {
         navigator.getUserMedia(constraints, success, error);
     }
 }
+/*//调用用户媒体设备, 访问摄像头 */
 const startMedia = () => {
     if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
         //调用用户媒体设备, 访问摄像头
@@ -245,6 +252,7 @@ const videoRecordingDownload = () => {
 
 
 }
+
 /* setting 设置从本地读取的数据加载到设置列表 */
 function loadParameter(cameraParams) {
     details[0].querySelector("label>input").value = cameraParams.project;
@@ -281,8 +289,25 @@ function loadParameter(cameraParams) {
         el.value = Object.values(cameraParams.building)[index];
     });
     details[6].querySelector("label>input[type='color']").value = cameraParams.flagSetting.color;
-    details[6].querySelector("label>input[type='number']").value = parseInt(cameraParams.flagSetting.width);
+    details[6].querySelector("label>input[type='number']").value = cameraParams.flagSetting.width;
     details[7].querySelector("label>input[type='radio']").checked = cameraParams.autoText;
+}
+/*setting 将设置保存到本地 */
+function saveSetting() {
+    document.querySelectorAll("ul>div label>input[type='number'],ul>div label>input[type='text']").forEach((el, index) => {
+        if(el.name in cameraParams){
+            cameraParams[el.name]=el.value;
+        }else if(el.name in cameraParams.message){
+            cameraParams.message[el.name]=el.value;
+        }else if(el.name in cameraParams.storageSize){
+            cameraParams.storageSize[el.name]=el.value;
+        }else if(el.name in cameraParams.building){
+            cameraParams.building[el.name]=el.value;
+        }else if(el.name in cameraParams.flagSetting){
+            cameraParams.flagSetting[el.name]=el.value;
+        }
+    })
+    console.log(cameraParams.flagSetting);
 }
 
 /*setting 提取折叠展开设置 */
@@ -337,4 +362,22 @@ function setFolding(index) {
     li[index].children[1].innerHTML = this.menuText;//将列表选项内容添加到列表项中
 
 }
+
+/* 判断文本输入框失去焦点后若内容为空将还原 */
+document.querySelectorAll("ul>div label>input[type='number'],ul>div label>input[type='text'][name='project']").forEach((el,index)=>{
+    el.addEventListener("blur",function(){
+        if (!el.value.trim()) {
+            if (el.name in cameraParams) {
+                el.value=cameraParams[el.name];
+            } else if (el.name in cameraParams.storageSize) {
+                el.value = cameraParams.storageSize[el.name];
+            } else if (el.name in cameraParams.building) {
+                el.value = cameraParams.building[el.name];
+            } else if (el.name in cameraParams.flagSetting) {
+                el.value = cameraParams.flagSetting[el.name];
+            }
+        }
+        
+    })
+});
 
