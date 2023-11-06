@@ -315,8 +315,11 @@ function saveSetting() {
         arr.push(o.innerText);
     }
     cameraParams.inspectionTable=arr;
-   
-   // console.log(cameraParams);
+    /* 将列保存尺寸中的进度条赋值给对象 */
+    cameraParams.storageSize.imageQuality=parseInt(document.querySelector("ul>.sharp>.outImageSharp>.progress>p").innerText)/100;
+    cameraParams.storageSize.videoQuality=parseInt(document.querySelector("ul>.sharp>.outVideoSharp>.progress>p").innerText)*1000000;
+    
+   console.log(cameraParams);
     //localStorage.setItem("cameraParams",JSON.stringify(cameraParams));
 }
 
