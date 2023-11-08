@@ -12,7 +12,8 @@ var point = document.querySelector(".shoot>.watermarkCamera>.camera>.changer>.po
 var floatingLabel = document.querySelector(".shoot>#floating");
 var systemCamera = document.querySelector(".shoot>.systemCamera");
 var image = document.querySelector(".shoot>.systemCamera>img");
-var input = document.querySelector(".selector>#opencamera");
+var inputSystem = document.querySelector(".selector>#opencamera");
+var inputMedia = document.querySelector(".selector>#openmedia");
 var saveImage = document.querySelector(".selector>.saveImage");
 const watermark = document.querySelector(".selector>.watermark");
 
@@ -89,7 +90,7 @@ shoot.addEventListener("touchend", function (ev) {
 })
 
 //添加系统相机拍摄完成的图片
-input.addEventListener("change", function (event) {
+inputSystem.addEventListener("change", function (event) {
     systemCamera.style.display = "block";//打开系统相机容器
     container.style.display = "none";//关闭水印相机容器
     saveImage.disabled=false;//启用(保存图片)按钮
@@ -99,6 +100,21 @@ input.addEventListener("change", function (event) {
         reader.readAsDataURL(file);
     }
     reader.onload = (readerEvent) => {
+        image.src = readerEvent.target.result;
+        //console.log()
+    }
+});
+//添加本地媒体事件
+inputMedia.addEventListener("change", function (event) {
+    systemCamera.style.display = "block";//打开系统相机容器
+    container.style.display = "none";//关闭水印相机容器
+    saveImage.disabled=false;//启用(保存图片)按钮
+    var file = event.target.files[0];
+    let reader = new FileReader();
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+    reader.onload = (readerEvent) => {//需要设置如果是视频将如何处理
         image.src = readerEvent.target.result;
         //console.log()
     }

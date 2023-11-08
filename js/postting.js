@@ -34,7 +34,7 @@ if (!localStorage.getItem("cameraParams")) {
 
 /* 每次加载重新调用本地参数 */
 let cameraParams = JSON.parse(localStorage.getItem("cameraParams"));//获取本地相机参数
-console.log(cameraParams);
+
 // 获取媒体方法（旧的浏览器可能需要前缀）
 const getOldStream = () => {
     navigator.getMedia = (navigator.getUserMedia ||
@@ -220,7 +220,7 @@ const videoRecordingDownload = () => {
 
         /* 创建视频录制,将canvas画面数据流赋值给视频录制组件 */
         const stream = canvas.captureStream();
-        this.mediaRecorder = new MediaRecorder(stream, { audioBitsPerSecond: 128000, videoBitsPerSecond: 2500000, mimeType: 'video/webm' });//---------------------------videoBitsPerSecond调整视频清晰度-----------------------------------------------------------
+        this.mediaRecorder = new MediaRecorder(stream, { audioBitsPerSecond: 128000, videoBitsPerSecond: 20000000, mimeType: 'video/webm' });//---------------------------videoBitsPerSecond调整视频清晰度-----------------------------------------------------------
         const data = [];
         this.mediaRecorder.ondataavailable = (ev) => {
             if (ev.data && ev.data.size) {
@@ -295,32 +295,32 @@ function loadParameter(cameraParams) {
 /*setting 将设置保存到本地 */
 function saveSetting() {
     document.querySelectorAll("ul>div label>input").forEach((el, index) => {
-        if(el.name in cameraParams){
-            cameraParams[el.name]=el.type=="text"?el.value:el.value=="fullAuto"?el.checked:!el.checked;
-        }else if(el.name in cameraParams.message){
-            el.name=="memo"?cameraParams.message[el.name]=el.value: cameraParams.message[el.name]=el.value=="current"?!el.checked:el.checked;
-           // cameraParams.message[el.name]=el.value;
-        }else if(el.name in cameraParams.storageSize){
-            cameraParams.storageSize[el.name]=el.value;
-        }else if(el.name in cameraParams.building){
-            cameraParams.building[el.name]=el.value;
-        }else if(el.name in cameraParams.flagSetting){
-            cameraParams.flagSetting[el.name]=el.value;
+        if (el.name in cameraParams) {
+            cameraParams[el.name] = el.type == "text" ? el.value : el.value == "fullAuto" ? el.checked : !el.checked;
+        } else if (el.name in cameraParams.message) {
+            el.name == "memo" ? cameraParams.message[el.name] = el.value : cameraParams.message[el.name] = el.value == "current" ? !el.checked : el.checked;
+            // cameraParams.message[el.name]=el.value;
+        } else if (el.name in cameraParams.storageSize) {
+            cameraParams.storageSize[el.name] = el.value;
+        } else if (el.name in cameraParams.building) {
+            cameraParams.building[el.name] = el.value;
+        } else if (el.name in cameraParams.flagSetting) {
+            cameraParams.flagSetting[el.name] = el.value;
         }
     });
     /* 添加列表选项 */
     let v = document.querySelector("ul>.addSort>select").options;//获取列表框中的列表项
-    let arr =[];
-    for(o of v){
+    let arr = [];
+    for (o of v) {
         arr.push(o.innerText);
     }
-    cameraParams.inspectionTable=arr;
+    cameraParams.inspectionTable = arr;
     /* 将列保存尺寸中的进度条赋值给对象 */
-    cameraParams.storageSize.imageQuality=parseInt(document.querySelector("ul>.sharp>.outImageSharp>.progress>p").innerText)/100;
-    cameraParams.storageSize.videoQuality=parseInt(document.querySelector("ul>.sharp>.outVideoSharp>.progress>p").innerText)*1000000;
-    
-   console.log(cameraParams);
-    //localStorage.setItem("cameraParams",JSON.stringify(cameraParams));
+    cameraParams.storageSize.imageQuality = parseInt(document.querySelector("ul>.sharp>.outImageSharp>.progress>p").innerText) / 100;
+    cameraParams.storageSize.videoQuality = parseInt(document.querySelector("ul>.sharp>.outVideoSharp>.progress>p").innerText) * 1000000;
+
+   // console.log(cameraParams);
+    localStorage.setItem("cameraParams", JSON.stringify(cameraParams));
 }
 
 /*setting 提取折叠展开设置 */
@@ -337,7 +337,7 @@ function setFolding(index) {
                 details[index].querySelectorAll("label>input").forEach((el, index, arr) => {//第二项
                     this.menuText += arr[0].checked && el.checked && index ? "[" + el.parentNode.innerText + "]" : "";//添加备注文本并判断添加日期是否选中,若选中将尾部日期信息添加到列表中
                 });
-                this.menuText = details[index].querySelector("label>input[type='text']").value + this.menuText;//最后将备注文本添加到列表文本前面;
+                this.menuText = this.menuText+details[index].querySelector("label>input[type='text']").value;//最后将备注文本添加到列表文本前面;
                 break;
             case 2:
                 details[index].querySelectorAll(".showVideoSize>label>input").forEach((el, index, arr) => {//将分辨率添加到列表项中
@@ -360,7 +360,7 @@ function setFolding(index) {
                 });
                 break;
             case 6:
-                this.menuText = `<input type='color' disabled value=${details[index].querySelector("label>input[type='color']").value}> `;
+                this.menuText = `<input type='color' style='height:6vw;' disabled value=${details[index].querySelector("label>input[type='color']").value}> `;
                 this.menuText += details[index].querySelector("label>input[type='number']").value + "vw";
                 break;
             case 7:
@@ -377,11 +377,11 @@ function setFolding(index) {
 }
 
 /* 判断文本输入框失去焦点后若内容为空将还原 */
-document.querySelectorAll("ul>div label>input[type='number'],ul>div label>input[type='text'][name='project']").forEach((el,index)=>{
-    el.addEventListener("blur",function(){
+document.querySelectorAll("ul>div label>input[type='number'],ul>div label>input[type='text'][name='project']").forEach((el, index) => {
+    el.addEventListener("blur", function () {
         if (!el.value.trim()) {
             if (el.name in cameraParams) {
-                el.value=cameraParams[el.name];
+                el.value = cameraParams[el.name];
             } else if (el.name in cameraParams.storageSize) {
                 el.value = cameraParams.storageSize[el.name];
             } else if (el.name in cameraParams.building) {
@@ -390,7 +390,7 @@ document.querySelectorAll("ul>div label>input[type='number'],ul>div label>input[
                 el.value = cameraParams.flagSetting[el.name];
             }
         }
-        
+
     })
 });
 

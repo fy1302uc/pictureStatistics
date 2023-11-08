@@ -27,7 +27,7 @@ addList.addEventListener("click",function(){
 });
 /* 删除指定列表项 */
 delList.addEventListener("click",function(){
-    selectEl.remove(selectEl.selectedIndex);
+     confirm(`确认要删除列表项'${selectEl.value}'吗?`) && selectEl.remove(selectEl.selectedIndex);
 });
 
 loadParameter(cameraParams);//加载相机本地参数到组件
