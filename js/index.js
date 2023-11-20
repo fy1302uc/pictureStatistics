@@ -16,7 +16,8 @@ var inputSystem = document.querySelector(".selector>#opencamera");
 var inputMedia = document.querySelector(".selector>#openmedia");
 var saveImage = document.querySelector(".selector>.saveImage");
 const watermark = document.querySelector(".selector>.watermark");
-
+const inspection=document.querySelector('.navigate>#inspection');
+const building = document.querySelector('.navigate>#building');
 
 //var label =document.querySelector(".selector>label");
 var context = canvas.getContext('2d');
@@ -28,6 +29,17 @@ var sharp = 0.4;//设置下载图片清晰度
 var videoMode = false;//设置红点是否显示及处于何种模式false为拍照模式
 var menuShow = false;//右上角菜单是否显示;
 // image.align="middle";
+/*添加楼房选择事件*/
+building.addEventListener('change',function(ev){
+  console.log('用户选择了选项');
+  
+});
+
+//添加巡查表列表
+inspection.innerHTML='';
+cameraParams.inspectionTable.forEach((item,index)=>{
+  inspection.innerHTML+=`<option>${item}</option>`;
+});
 
 //添加浮动的标签文本被长按事件(改变颜色用)
 floatingLabel.addEventListener("touchstart", function (event) {

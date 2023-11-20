@@ -85,6 +85,7 @@ const getStream = () => {
 
 /* 实现拍摄的图片保存下载,从视频流中截取一帧图片并画在canvas中并下载 */
 let drawImage = (el) => {
+    console.log(el);
     let width = el.naturalWidth ? el.naturalWidth : window.width;//处理元素img和video原始宽度兼容
     //alert("imgWidth:"+width);
     canvas.width = width;
@@ -99,6 +100,7 @@ let drawImage = (el) => {
     //console.log(floatingLabel.innerHTML,(width/el.clientWidth),getComputedStyle(floatingLabel).color,floatingLabel.offsetTop);
     context.fillText(floatingLabel.innerHTML, floatingLabel.offsetLeft * (width / el.clientWidth), (floatingLabel.offsetTop + floatingLabelFontSize) * (width / el.clientWidth));
     context.restore();
+    
     var dataUrl = canvas.toDataURL("image/jpeg", sharp);//-----------------------------------------需要设置清晰度-----------------------------------------------------
     var link = document.createElement("a");
     link.href = dataUrl;
@@ -321,6 +323,7 @@ function saveSetting() {
 
    // console.log(cameraParams);
     localStorage.setItem("cameraParams", JSON.stringify(cameraParams));
+    
 }
 
 /*setting 提取折叠展开设置 */

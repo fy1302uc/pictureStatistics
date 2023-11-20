@@ -20,6 +20,7 @@ const progressLabel = document.querySelector('ul > div.sharp > .outImageSharp > 
  */
 //localStorage.setItem("camera", JSON.stringify({ name: 'liubo', age: 23, gender: 'male' }));
 
+
 /* 添加列表项 */
 addList.addEventListener("click",function(){
     let newList = window.prompt("请输入新列表项:");
@@ -40,6 +41,7 @@ back.addEventListener("click", function () {
 /* 保存配置 */
 save.addEventListener("click",function(){
     saveSetting();
+    window.location.replace("./index.html");
 });
 /* 关于帮助 */
 aboutHelp.addEventListener("click",function(){
