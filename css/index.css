@@ -37,13 +37,30 @@ body {
 .shoot {
   flex: 1;
   position: relative;
-  border: solid 2px deeppink;
   overflow: hidden;
+  /*左上角菜单*/
   /* 右上角菜单列表 */
   /* 浮动文本 */
   /* 画图画版 */
   /* 水印相机组件 */
   /* 系统相机 */
+}
+.shoot > .buildingList {
+  position: absolute;
+  display: none;
+  left: 0;
+  top: 0;
+  max-height: calc(100% - 13vw);
+  overflow: auto;
+  background-color: white;
+  border: solid 1px gray;
+  color: black;
+  font-size: 4vw;
+  z-index: 99;
+}
+.shoot > .buildingList > li {
+  border-top: solid 1px gray;
+  padding: 1vw 5vw;
 }
 .shoot > .menuSelect {
   position: absolute;
@@ -51,7 +68,7 @@ body {
   right: 0;
   top: 0;
   background-color: black;
-  border: solid 1px red;
+  border: solid 1px white;
   color: white;
   font-size: 4vw;
   z-index: 99;
@@ -64,7 +81,7 @@ body {
   position: absolute;
   display: block;
   z-index: 29;
-  color: black;
+  color: deeppink;
   font-size: 4vw;
   white-space: nowrap;
   line-height: 1;
@@ -75,7 +92,6 @@ body {
 .shoot .watermarkCamera {
   box-sizing: border-box;
   display: none;
-  border: solid 1px green;
 }
 .shoot .watermarkCamera > video {
   width: 100%;
@@ -112,7 +128,6 @@ body {
 }
 .shoot .systemCamera {
   flex: 1;
-  border: solid 2px green;
 }
 .shoot .systemCamera > img {
   width: 100%;
@@ -123,7 +138,6 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  border: solid 1px green;
   display: flex;
   justify-content: space-evenly;
   align-items: end;
