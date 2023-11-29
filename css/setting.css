@@ -34,7 +34,6 @@ header > h2 {
 }
 .section {
   flex: 1;
-  border: solid green 1px;
   overflow: auto;
 }
 ul {

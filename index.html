@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta name="viewport" content="width=device-width,maximum-scale=1.0,initial-scale=1.0,user-scalable=no">
-  <title>后置摄像头全屏显示</title>
-  <link rel="stylesheet" href="./css/index.css">
+  <title>图片统计网页版</title>
+  <link rel="stylesheet/less" href="./css/index.less">
+  <script type="text/javascript" src="cdn_modules/less.js@4.2.0/less.min.js"></script>
 </head>
 
 <body>
@@ -21,9 +22,8 @@
       <option value="5#楼">5#楼</option>
       <option value="6#楼">6#楼</option>
       <option value="7#楼">7#楼</option>
-      <option value="8#楼">8#楼</option>
     </select>
-   
+    
     <!--
     <ul id="building">
       <li>1#楼</li>
@@ -35,14 +35,16 @@
       <li>7#楼</li>
     </ul>
     -->
-    <!-- <div class="list">
+    <!--
+    <div id="buildingList">
       <p>1号楼</p>
       <p>2号楼</p>
       <p>3号楼</p>
       <p>4号楼</p>
       <p>5号楼</p>
       <p>5号楼</p>
-    </div> -->
+    </div>
+    -->
     <!-- 拍摄时期 -->
     <select name="inspection" id="inspection">
       <option value="装修前">装修前</option>
@@ -53,9 +55,22 @@
     <button class="menu">...</button>
    
   </div>
+
   
   <!-- 拍摄组件 -->
   <div class="shoot">
+     <!--楼号选择列表-->
+     
+  
+       <ul class="buildingList">
+         <li>1#楼</li>
+         <li>2#楼</li>
+         <li>3#楼</li>
+         <li>4#楼</li>
+         <li>5#楼</li>
+         <li>你#楼</li>
+       </ul>
+      
      <!-- 菜单列表 -->
      <ul class="menuSelect">
       <li>标记</li>
@@ -64,7 +79,7 @@
       <li>帮助</li>
     </ul>
     <!-- 浮动文本 -->
-    <label id="floating">这是实验文本</label>
+    <label id="floating"></label>
     <canvas></canvas>
     <!-- 水印相机组件 -->
     <div class="watermarkCamera">
@@ -86,9 +101,9 @@
     <button class="saveImage">保存图片</button>
     <button class="watermark">水印相机</button>
     <button class="system"><label for="opencamera">系统相机</label></button>
-    <button class="picture"><label for="openmedia">本地媒体</label></button>
+    <button class="picture"><label for="openmedia">本地图片</label></button>
     <input type="file" id="opencamera" accept="image/*" capture="camera">
-    <input type="file" id="openmedia" accept="image/*,video/*" capture="camera">
+    <input type="file" id="openmedia" accept="image/*">
   </div>
 
   <!--  -->
